@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aWireFrameToRobot", "WireFrameToRobot\aWireFrameToRobot.csproj", "{AE48041C-739C-4609-9830-2649147EDFED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DYNAMO_TORO", "Dynamo ToRo\DYNAMO_TORO.csproj", "{75693C00-F591-4C92-BBB6-06FEA6587376}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dynamo_ToRoUI", "Dynamo_ToRoUI\Dynamo_ToRoUI.csproj", "{5EFB9BA9-A0ED-4E92-B202-8AFD815804B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoTestFiles", "..\..\DynamoTestFiles\DynamoTestFiles.csproj", "{A2231A9A-C990-4DDC-B654-E05DD013105B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE48041C-739C-4609-9830-2649147EDFED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE48041C-739C-4609-9830-2649147EDFED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE48041C-739C-4609-9830-2649147EDFED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE48041C-739C-4609-9830-2649147EDFED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75693C00-F591-4C92-BBB6-06FEA6587376}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75693C00-F591-4C92-BBB6-06FEA6587376}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75693C00-F591-4C92-BBB6-06FEA6587376}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75693C00-F591-4C92-BBB6-06FEA6587376}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EFB9BA9-A0ED-4E92-B202-8AFD815804B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EFB9BA9-A0ED-4E92-B202-8AFD815804B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EFB9BA9-A0ED-4E92-B202-8AFD815804B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EFB9BA9-A0ED-4E92-B202-8AFD815804B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2231A9A-C990-4DDC-B654-E05DD013105B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2231A9A-C990-4DDC-B654-E05DD013105B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2231A9A-C990-4DDC-B654-E05DD013105B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2231A9A-C990-4DDC-B654-E05DD013105B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

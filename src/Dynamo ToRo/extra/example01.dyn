@@ -1,0 +1,91 @@
+<Workspace Version="0.9.0.3072" X="-588.522676373859" Y="-4827.97598906364" zoom="1.48827467660912" Name="Home" Description="" RunType="Automatic" RunPeriod="1000" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="Point" resolvedName="Autodesk.DesignScript.Geometry.Point" assemblyName="ProtoGeometry.dll" />
+    <ClassMap partialName="CoordinateSystem" resolvedName="Autodesk.DesignScript.Geometry.CoordinateSystem" assemblyName="ProtoGeometry.dll" />
+    <ClassMap partialName="Vector" resolvedName="Autodesk.DesignScript.Geometry.Vector" assemblyName="ProtoGeometry.dll" />
+    <ClassMap partialName="Line" resolvedName="Autodesk.DesignScript.Geometry.Line" assemblyName="ProtoGeometry.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Nodes.DSFunction guid="324a5547-aa12-4f56-a89c-bd5beaafe4f0" type="Dynamo.Nodes.DSFunction" nickname="Point.BySphericalCoordinates" x="810.847663436734" y="3410.65942096521" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Point.BySphericalCoordinates@Autodesk.DesignScript.Geometry.CoordinateSystem,double,double,double">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+      <PortInfo index="3" default="True" />
+    </Dynamo.Nodes.DSFunction>
+    <Dynamo.Nodes.CodeBlockNodeModel guid="d24a1c59-9e56-4b9f-bbb8-e64e7aba0141" type="Dynamo.Nodes.CodeBlockNodeModel" nickname="Code Block" x="396.667403070801" y="3445.34829998182" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" CodeText="CoordinateSystem.ByOrigin(0,0,0);&#xA;vals = 60..360..10;" ShouldFocus="false" />
+    <Dynamo.Nodes.DSFunction guid="28dda241-9377-40b3-bb8c-171ae3badbf9" type="Dynamo.Nodes.DSFunction" nickname="Geometry.Rotate" x="1103.14955677583" y="3510.44088516946" isVisible="false" isUpstreamVisible="true" lacing="CrossProduct" isSelectedInput="False" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Geometry.Rotate@Autodesk.DesignScript.Geometry.Point,Autodesk.DesignScript.Geometry.Vector,double">
+      <PortInfo index="3" default="True" />
+    </Dynamo.Nodes.DSFunction>
+    <Dynamo.Nodes.CodeBlockNodeModel guid="047772a2-cf4b-48ca-b04d-8f0b7f1f56d3" type="Dynamo.Nodes.CodeBlockNodeModel" nickname="Code Block" x="702.034492526454" y="3588.02570726939" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" CodeText="Point.ByCoordinates(0,-100,-100);&#xA;Vector.ByCoordinates(-0.1,-0.3,0.2);&#xA;45;" ShouldFocus="false" />
+    <Dynamo.Nodes.DSFunction guid="bd1e8a41-1cc5-46b6-ad85-ba4e6950583b" type="Dynamo.Nodes.DSFunction" nickname="Geometry.Scale" x="1378.69735415192" y="3631.82385370436" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Geometry.Scale@double,double,double">
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+      <PortInfo index="3" default="True" />
+    </Dynamo.Nodes.DSFunction>
+    <Dynamo.Nodes.CodeBlockNodeModel guid="5537937f-0cd0-418e-ae29-ffe13c18c3ad" type="Dynamo.Nodes.CodeBlockNodeModel" nickname="Code Block" x="1201.29823128746" y="3683.76546993771" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" CodeText="1.3;" ShouldFocus="false" />
+    <Dynamo.Nodes.DSFunction guid="a9c088ce-c217-424c-a716-fa9e876d78b8" type="Dynamo.Nodes.DSFunction" nickname="Vector.ByTwoPoints" x="1734.1728806784" y="3412.87071609995" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Vector.ByTwoPoints@Autodesk.DesignScript.Geometry.Point,Autodesk.DesignScript.Geometry.Point" />
+    <Dynamo.Nodes.DSFunction guid="a945d38a-98a6-4ecd-b8e3-9b30e7fb1903" type="Dynamo.Nodes.DSFunction" nickname="Flatten" x="1197.22969257399" y="3410.07540011522" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="BuiltIn" function="Flatten@var[]..[]" />
+    <Dynamo.Nodes.DSFunction guid="c03b573d-ad02-4780-af53-c2584a295dca" type="Dynamo.Nodes.DSFunction" nickname="Flatten" x="1594.72127110556" y="3629.666925885" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="BuiltIn" function="Flatten@var[]..[]" />
+    <Dynamo.Nodes.DSFunction guid="ec01e696-293d-4874-ac3c-2ad2faf652ce" type="Dynamo.Nodes.DSFunction" nickname="Vector.Cross" x="1917.88084408727" y="3464.83421396393" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Vector.Cross@Autodesk.DesignScript.Geometry.Vector" />
+    <Dynamo.Nodes.DSFunction guid="1b21c3ac-9949-4ddd-ac46-80ed7805354d" type="Dynamo.Nodes.DSFunction" nickname="Vector.ZAxis" x="1775.92254590649" y="3524.84152041633" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Vector.ZAxis" />
+    <Dynamo.Nodes.DSFunction guid="c53a758d-6e9b-44fc-82b3-b7b5a8a57fb1" type="Dynamo.Nodes.DSFunction" nickname="Geometry.Translate" x="2315.77372164103" y="3256.18802806699" isVisible="false" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Geometry.Translate@Autodesk.DesignScript.Geometry.Vector,double" />
+    <Dynamo.Nodes.DSFunction guid="888ffb02-02cd-4882-aa29-f071c7dc00bb" type="Dynamo.Nodes.DSFunction" nickname="Vector.Length" x="1972.1646849648" y="3355.25916953642" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Vector.Length" />
+    <Dynamo.Nodes.CodeBlockNodeModel guid="aa599029-336b-44c9-83a2-a890243a4b1f" type="Dynamo.Nodes.CodeBlockNodeModel" nickname="Code Block" x="2162.10372832509" y="3360.89196326558" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" CodeText="x/2;" ShouldFocus="false" />
+    <Dynamo.Nodes.DSFunction guid="9a2b0bcb-4011-4024-9eef-d67af2612264" type="Dynamo.Nodes.DSFunction" nickname="Geometry.Translate" x="2562.29476668615" y="3438.97928582013" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Geometry.Translate@Autodesk.DesignScript.Geometry.Vector,double" />
+    <Dynamo.Nodes.DSFunction guid="0842ce49-4cbd-45c2-89cc-845a69de8a0d" type="Dynamo.Nodes.DSFunction" nickname="List.RestOfItems" x="993.307552022002" y="3290.74284943155" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="DSCoreNodes.dll" function="DSCore.List.RestOfItems@var[]..[]" />
+    <Dynamo.Nodes.DSFunction guid="f633324f-4bce-431e-a3b5-57378e262a61" type="Dynamo.Nodes.DSFunction" nickname="PolyCurve.ByPoints" x="2130.88171258968" y="2872.03564148044" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.PolyCurve.ByPoints@Autodesk.DesignScript.Geometry.Point[],bool">
+      <PortInfo index="1" default="True" />
+    </Dynamo.Nodes.DSFunction>
+    <Dynamo.Nodes.DSFunction guid="7666e78c-a481-49ff-859f-59e3eeeba81f" type="Dynamo.Nodes.DSFunction" nickname="PolyCurve.ByPoints" x="2138.15433055837" y="2990.23382572527" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.PolyCurve.ByPoints@Autodesk.DesignScript.Geometry.Point[],bool">
+      <PortInfo index="1" default="True" />
+    </Dynamo.Nodes.DSFunction>
+    <Dynamo.Nodes.CodeBlockNodeModel guid="4bad65c7-ae74-4482-b2ca-c35684f6dc23" type="Dynamo.Nodes.CodeBlockNodeModel" nickname="Code Block" x="2381.60549532249" y="3529.30790956191" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" CodeText="220;" ShouldFocus="false" />
+  </Elements>
+  <Connectors>
+    <Dynamo.Models.ConnectorModel start="324a5547-aa12-4f56-a89c-bd5beaafe4f0" start_index="0" end="0842ce49-4cbd-45c2-89cc-845a69de8a0d" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="d24a1c59-9e56-4b9f-bbb8-e64e7aba0141" start_index="0" end="324a5547-aa12-4f56-a89c-bd5beaafe4f0" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="d24a1c59-9e56-4b9f-bbb8-e64e7aba0141" start_index="1" end="324a5547-aa12-4f56-a89c-bd5beaafe4f0" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="d24a1c59-9e56-4b9f-bbb8-e64e7aba0141" start_index="1" end="324a5547-aa12-4f56-a89c-bd5beaafe4f0" end_index="2" portType="0" />
+    <Dynamo.Models.ConnectorModel start="d24a1c59-9e56-4b9f-bbb8-e64e7aba0141" start_index="1" end="324a5547-aa12-4f56-a89c-bd5beaafe4f0" end_index="3" portType="0" />
+    <Dynamo.Models.ConnectorModel start="28dda241-9377-40b3-bb8c-171ae3badbf9" start_index="0" end="bd1e8a41-1cc5-46b6-ad85-ba4e6950583b" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="047772a2-cf4b-48ca-b04d-8f0b7f1f56d3" start_index="0" end="28dda241-9377-40b3-bb8c-171ae3badbf9" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="047772a2-cf4b-48ca-b04d-8f0b7f1f56d3" start_index="1" end="28dda241-9377-40b3-bb8c-171ae3badbf9" end_index="2" portType="0" />
+    <Dynamo.Models.ConnectorModel start="047772a2-cf4b-48ca-b04d-8f0b7f1f56d3" start_index="2" end="28dda241-9377-40b3-bb8c-171ae3badbf9" end_index="3" portType="0" />
+    <Dynamo.Models.ConnectorModel start="bd1e8a41-1cc5-46b6-ad85-ba4e6950583b" start_index="0" end="c03b573d-ad02-4780-af53-c2584a295dca" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="5537937f-0cd0-418e-ae29-ffe13c18c3ad" start_index="0" end="bd1e8a41-1cc5-46b6-ad85-ba4e6950583b" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="5537937f-0cd0-418e-ae29-ffe13c18c3ad" start_index="0" end="bd1e8a41-1cc5-46b6-ad85-ba4e6950583b" end_index="2" portType="0" />
+    <Dynamo.Models.ConnectorModel start="5537937f-0cd0-418e-ae29-ffe13c18c3ad" start_index="0" end="bd1e8a41-1cc5-46b6-ad85-ba4e6950583b" end_index="3" portType="0" />
+    <Dynamo.Models.ConnectorModel start="a9c088ce-c217-424c-a716-fa9e876d78b8" start_index="0" end="ec01e696-293d-4874-ac3c-2ad2faf652ce" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="a9c088ce-c217-424c-a716-fa9e876d78b8" start_index="0" end="c53a758d-6e9b-44fc-82b3-b7b5a8a57fb1" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="a9c088ce-c217-424c-a716-fa9e876d78b8" start_index="0" end="888ffb02-02cd-4882-aa29-f071c7dc00bb" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="a945d38a-98a6-4ecd-b8e3-9b30e7fb1903" start_index="0" end="a9c088ce-c217-424c-a716-fa9e876d78b8" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="a945d38a-98a6-4ecd-b8e3-9b30e7fb1903" start_index="0" end="c53a758d-6e9b-44fc-82b3-b7b5a8a57fb1" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="a945d38a-98a6-4ecd-b8e3-9b30e7fb1903" start_index="0" end="f633324f-4bce-431e-a3b5-57378e262a61" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="c03b573d-ad02-4780-af53-c2584a295dca" start_index="0" end="a9c088ce-c217-424c-a716-fa9e876d78b8" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="c03b573d-ad02-4780-af53-c2584a295dca" start_index="0" end="7666e78c-a481-49ff-859f-59e3eeeba81f" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="ec01e696-293d-4874-ac3c-2ad2faf652ce" start_index="0" end="9a2b0bcb-4011-4024-9eef-d67af2612264" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="1b21c3ac-9949-4ddd-ac46-80ed7805354d" start_index="0" end="ec01e696-293d-4874-ac3c-2ad2faf652ce" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="c53a758d-6e9b-44fc-82b3-b7b5a8a57fb1" start_index="0" end="9a2b0bcb-4011-4024-9eef-d67af2612264" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="888ffb02-02cd-4882-aa29-f071c7dc00bb" start_index="0" end="aa599029-336b-44c9-83a2-a890243a4b1f" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="aa599029-336b-44c9-83a2-a890243a4b1f" start_index="0" end="c53a758d-6e9b-44fc-82b3-b7b5a8a57fb1" end_index="2" portType="0" />
+    <Dynamo.Models.ConnectorModel start="0842ce49-4cbd-45c2-89cc-845a69de8a0d" start_index="0" end="28dda241-9377-40b3-bb8c-171ae3badbf9" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="0842ce49-4cbd-45c2-89cc-845a69de8a0d" start_index="0" end="a945d38a-98a6-4ecd-b8e3-9b30e7fb1903" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="4bad65c7-ae74-4482-b2ca-c35684f6dc23" start_index="0" end="9a2b0bcb-4011-4024-9eef-d67af2612264" end_index="2" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Models.AnnotationModel guid="e74d5f8c-f6bb-44c7-9eef-8307673b0145" annotationText="&lt;Click here to edit the group title&gt;" left="2552.29476668615" top="3395.37928582013" width="203.2" height="187.4" fontSize="14" InitialTop="3438.97928582013" InitialHeight="173.8" TextblockHeight="33.6" backgrouund="#FFC1D676">
+      <Models ModelGuid="9a2b0bcb-4011-4024-9eef-d67af2612264" />
+    </Dynamo.Models.AnnotationModel>
+    <Dynamo.Models.AnnotationModel guid="de11f11e-0696-4eb9-96f7-d443b6249d2e" annotationText="&lt;Click here to edit the group title&gt;" left="1584.72127110556" top="3586.066925885" width="129.6" height="136.2" fontSize="14" InitialTop="3629.666925885" InitialHeight="122.6" TextblockHeight="33.6" backgrouund="#FFC1D676">
+      <Models ModelGuid="c03b573d-ad02-4780-af53-c2584a295dca" />
+    </Dynamo.Models.AnnotationModel>
+    <Dynamo.Models.AnnotationModel guid="84d0ac4c-1ece-41dc-b156-e734ce763728" annotationText="&lt;Click here to edit the group title&gt;" left="1187.22969257399" top="3366.47540011522" width="129.6" height="136.2" fontSize="14" InitialTop="3410.07540011522" InitialHeight="122.6" TextblockHeight="33.6" backgrouund="#FFC1D676">
+      <Models ModelGuid="a945d38a-98a6-4ecd-b8e3-9b30e7fb1903" />
+    </Dynamo.Models.AnnotationModel>
+  </Annotations>
+  <Presets />
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="-649.351063596673" eyeY="769.847240986033" eyeZ="-1254.38364677369" lookX="689.724720823236" lookY="-687.275097431346" lookZ="1259.25321464478" upX="0.109696619447226" upY="0.973578900163154" upZ="0.2002767393105" />
+  </Cameras>
+</Workspace>

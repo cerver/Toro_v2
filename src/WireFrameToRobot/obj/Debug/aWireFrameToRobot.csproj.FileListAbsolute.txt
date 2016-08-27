@@ -1,0 +1,17 @@
+D:\GoogleDrive\Code\TORO\ClassLibrary1\WireFrameToRobot\bin\Debug\aWireFrameToRobot.xml
+D:\GoogleDrive\Code\TORO\ClassLibrary1\WireFrameToRobot\bin\Debug\aWireFrameToRobot.dll
+D:\GoogleDrive\Code\TORO\ClassLibrary1\WireFrameToRobot\bin\Debug\aWireFrameToRobot.pdb
+D:\GoogleDrive\Code\TORO\ClassLibrary1\WireFrameToRobot\bin\Debug\DynamoServices.dll
+D:\GoogleDrive\Code\TORO\ClassLibrary1\WireFrameToRobot\bin\Debug\DynamoText.dll
+D:\GoogleDrive\Code\TORO\ClassLibrary1\WireFrameToRobot\bin\Debug\DynamoText.pdb
+D:\GoogleDrive\Code\TORO\ClassLibrary1\WireFrameToRobot\obj\Debug\aWireFrameToRobot.dll
+D:\GoogleDrive\Code\TORO\ClassLibrary1\WireFrameToRobot\obj\Debug\aWireFrameToRobot.pdb
+D:\GoogleDrive\Code\TORO\ClassLibrary1\WireFrameToRobot\obj\Debug\aWireFrameToRobot.csprojResolveAssemblyReference.cache
+D:\GoogleDrive\Code\TORO\src\WireFrameToRobot\bin\Debug\aWireFrameToRobot.xml
+D:\GoogleDrive\Code\TORO\src\WireFrameToRobot\bin\Debug\aWireFrameToRobot.dll
+D:\GoogleDrive\Code\TORO\src\WireFrameToRobot\bin\Debug\aWireFrameToRobot.pdb
+D:\GoogleDrive\Code\TORO\src\WireFrameToRobot\bin\Debug\DynamoServices.dll
+D:\GoogleDrive\Code\TORO\src\WireFrameToRobot\bin\Debug\DynamoText.dll
+D:\GoogleDrive\Code\TORO\src\WireFrameToRobot\bin\Debug\DynamoText.pdb
+D:\GoogleDrive\Code\TORO\src\WireFrameToRobot\obj\Debug\aWireFrameToRobot.dll
+D:\GoogleDrive\Code\TORO\src\WireFrameToRobot\obj\Debug\aWireFrameToRobot.pdb
