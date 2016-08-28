@@ -81,6 +81,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SimulationFunction.cs" />
     <Compile Include="WIP_ROBARCH.cs" />
     <Compile Include="WIP_WELDING.cs" />
     <Compile Include="TORO_UTILS.cs" />

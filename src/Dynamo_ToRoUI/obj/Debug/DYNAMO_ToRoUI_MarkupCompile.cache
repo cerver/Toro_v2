@@ -4,7 +4,7 @@
 library
 C#
 .cs
-D:\GoogleDrive\Code\TORO\src\Dynamo_ToRoUI\obj\Debug\
+D:\GoogleDrive\Code\Toro_v2\src\Dynamo_ToRoUI\obj\Debug\
 Dynamo_TORO
 none
 false
@@ -13,7 +13,7 @@ DEBUG;TRACE
 3-133318778
 
 5747865410
-791434474496
+83-670753782
 NodeUI\RemotePanelMain.xaml;NodeUI\tab_ConnectToRS.xaml;NodeUI\tab_program.xaml;
 
 False

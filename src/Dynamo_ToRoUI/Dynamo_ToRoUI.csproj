@@ -35,6 +35,18 @@
       <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\RobotStudio 6.03\Bin64\ABB.Robotics.Controllers.PC.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="ABB.Robotics.Math">
+      <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\RobotStudio 6.03\Bin64\ABB.Robotics.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio">
+      <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\RobotStudio 6.03\Bin64\ABB.Robotics.RobotStudio.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio.Controllers">
+      <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\RobotStudio 6.03\Bin64\ABB.Robotics.RobotStudio.Controllers.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio.Environment">
+      <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\RobotStudio 6.03\Bin64\ABB.Robotics.RobotStudio.Environment.dll</HintPath>
+    </Reference>
     <Reference Include="ABB.Robotics.RobotStudio.Stations">
       <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\RobotStudio 6.03\Bin64\ABB.Robotics.RobotStudio.Stations.dll</HintPath>
     </Reference>
@@ -134,6 +146,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

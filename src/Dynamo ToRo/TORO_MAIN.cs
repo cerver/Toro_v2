@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.IO;
+using System.Linq.Expressions;
 using System.Text;
 using ABB.Robotics.Controllers;
 using ABB.Robotics.Controllers.Discovery;
@@ -14,6 +15,7 @@ using ABB.Robotics.RobotStudio;
 using Autodesk.DesignScript.Geometry;
 using Autodesk.DesignScript.Runtime;
 using Plane = Autodesk.DesignScript.Geometry.Plane;
+using Dynamo_TORO.SimFunctions;
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -54,6 +56,33 @@ namespace Dynamo_TORO
     //////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
 
+    /// <summary>
+    /// simulate robot.
+    /// </summary>
+    public class RobotSimulation
+    {
+        [IsVisibleInDynamoLibrary(false)]
+        public RobotSimulation()
+        { }
+        
+        public static double[] checkTarget(string station, Plane target)
+        {
+            VirtualStation vs = new VirtualStation(station);
+           var rsTarget = vs.CreateTarget(target);
+
+            return vs.CalulateIK(target).Result;
+            
+
+        }
+
+        public static bool CheckTargetReach(string station, Plane target)
+        {
+            VirtualStation vs = new VirtualStation(station);
+            return vs.isTargetReachable(target);
+        }
+
+
+    }
 
     /// <summary>
     /// Create datatype.
