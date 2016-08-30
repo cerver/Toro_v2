@@ -2809,7 +2809,34 @@ namespace Dynamo_TORO
             return startResult.ToString();
         }
 
+        /// <summary>
+        /// Stop the simulation
+        /// </summary>
+        /// <param name="run">True to run</param>
+        /// <param name="controllerData">Controller data</param>
+        /// <param name="value"></param>
+        public static void StopSim(bool run, string[] controllerData)
+        {
+          
+            if (run == true)
+            {
+                Guid systemId = new Guid(controllerData[1]);
+                Controller controller = new Controller(systemId);
+                controller.Logon(UserInfo.DefaultUser);
 
+
+                Task newTask = controller.Rapid.GetTask("T_ROB1");
+                using (Mastership.Request(controller.Rapid))
+                {
+                    if (newTask.ExecutionStatus == TaskExecutionStatus.Stopped ||
+                        newTask.ExecutionStatus == TaskExecutionStatus.Ready)
+                        newTask.Stop();
+                }
+                controller.Logoff();
+
+            }
+
+        }
 
     }
 

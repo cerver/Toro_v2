@@ -61,6 +61,8 @@ namespace Dynamo_TORO.SimFunctions
                 tStation.Irc5Controllers[0].StartAsync(VirtualControllerRestartMode.IStart,
                     new List<Mechanism>(1) {robot});
 
+               
+
             }
             catch (Exception e)
             {
@@ -76,7 +78,7 @@ namespace Dynamo_TORO.SimFunctions
         public bool isTargetReachable(DGeom.Plane targetPlane)
         {
             var target = CreateTarget(targetPlane);
-            var isOk = robot.CanReachAsync(target.RobTarget, target.WorkObject, rsTask.ActiveTool);
+            var isOk = robot.Task.Mechanism.CanReachAsync(target.RobTarget, target.WorkObject, rsTask.ActiveTool);
             isOk.Wait();
 
             return isOk.Result;
@@ -91,15 +93,20 @@ namespace Dynamo_TORO.SimFunctions
             try
             {
                 //robot.CalculateInverseKinematicsAsync(rst, rsTask.ActiveTool, true);
-                var jData =  await robot.CalculateInverseKinematicsAsync(rst,rsTask.ActiveTool,false);
+                var jData = await robot.Task.Mechanism.CalculateInverseKinematicsAsync(rst, rsTask.ActiveTool, false);
                 return jData;
 
             }
-            catch (Exception exception)
+            catch (ABB.Robotics.BaseException exception)
             {
-                
                 throw;
             }
+            catch (Exception exception)
+            {
+
+                throw;
+            }
+            
             return jointRot;
 
 

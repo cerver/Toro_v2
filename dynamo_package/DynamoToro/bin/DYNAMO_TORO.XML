@@ -888,5 +888,13 @@
             <param name="controllerData">Controller data</param>
             <param name="value"></param>
         </member>
+        <member name="M:Dynamo_TORO.RobComm.StopSim(System.Boolean,System.String[])">
+            <summary>
+            Stop the simulation
+            </summary>
+            <param name="run">True to run</param>
+            <param name="controllerData">Controller data</param>
+            <param name="value"></param>
+        </member>
     </members>
 </doc>

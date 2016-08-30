@@ -31,19 +31,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ABB.Robotics.Controllers.PC, Version=6.1.6495.1010, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ABB.Robotics.Controllers.PC, Version=6.3.7016.2009, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\RobotStudio 6.03\Bin64\ABB.Robotics.Controllers.PC.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\RSSDK\ABB.Robotics.Controllers.PC.dll</HintPath>
     </Reference>
-    <Reference Include="ABB.Robotics.Math">
-      <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\RobotStudio 6.03\Bin64\ABB.Robotics.Math.dll</HintPath>
+    <Reference Include="ABB.Robotics.Math, Version=6.3.7016.2009, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\RSSDK\ABB.Robotics.Math.dll</HintPath>
     </Reference>
-    <Reference Include="ABB.Robotics.RobotStudio">
-      <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\RobotStudio 6.03\Bin64\ABB.Robotics.RobotStudio.dll</HintPath>
+    <Reference Include="ABB.Robotics.RobotStudio, Version=6.3.7016.2009, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\RSSDK\ABB.Robotics.RobotStudio.dll</HintPath>
     </Reference>
-    <Reference Include="ABB.Robotics.RobotStudio.Stations">
-      <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\RobotStudio 6.03\Bin64\ABB.Robotics.RobotStudio.Stations.dll</HintPath>
+    <Reference Include="ABB.Robotics.RobotStudio.Controllers">
+      <HintPath>..\..\RSSDK\ABB.Robotics.RobotStudio.Controllers.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio.Environment">
+      <HintPath>..\..\RSSDK\ABB.Robotics.RobotStudio.Environment.dll</HintPath>
+    </Reference>
+    <Reference Include="ABB.Robotics.RobotStudio.Stations, Version=6.3.7016.2009, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\RSSDK\ABB.Robotics.RobotStudio.Stations.dll</HintPath>
     </Reference>
     <Reference Include="DynamoCore, Version=1.1.0.2094, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

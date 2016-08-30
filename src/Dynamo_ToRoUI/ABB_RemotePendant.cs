@@ -83,6 +83,8 @@ namespace Dynamo_TORO
         public DelegateCommand BtSetProgramPointer { get; set; }
         [IsVisibleInDynamoLibrary(false)]
         public DelegateCommand BtPlayFromPointer { get; set; }
+        [IsVisibleInDynamoLibrary(false)]
+        public DelegateCommand BtStop { get; set; }
 
         [IsVisibleInDynamoLibrary(false)]
         internal delegate List<object> GetInputDelegate(int inputNum);
@@ -133,6 +135,7 @@ namespace Dynamo_TORO
             BtSendProgramToRs = new DelegateCommand(SendProgramToRsClicked, IsOk);
             BtSetProgramPointer = new DelegateCommand(SetProgramPointer, IsOk);
             BtPlayFromPointer = new DelegateCommand(PlayFromPointer, IsOk);
+            BtStop = new DelegateCommand(StopSim, IsOk);
 
             //  ExecutionEvents.GraphPostExecution += ExecutionEvents_GraphPostExecution;
             // ExecutionEvents.GraphPreExecution += ExecutionEvents_GraphPreExecution;
@@ -201,6 +204,7 @@ namespace Dynamo_TORO
                 if (HasConnectedInput(3))
                     wobjList = getInput(3).OfType<string>().ToList();
 
+                
 
                 Func<string, List<string>, List<string>, List<string>, List<string>, string> func =
                     ToroUIfunctions.processUIdata;
@@ -339,6 +343,10 @@ namespace Dynamo_TORO
         internal void PlayFromPointer(object obj)
         {
             RobComm.playFromPointerLoc(true, CustomUi.ProgramPanel.selectedControler);
+        }
+        internal void StopSim(object obj)
+        {
+            RobComm.StopSim(true, CustomUi.ProgramPanel.selectedControler);
         }
 
 

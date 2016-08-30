@@ -14,6 +14,7 @@
             <Button x:Name="btSendToRS" Content="D-RS" HorizontalAlignment="Left" Width="40" Command="{Binding BtSendProgramToRs}" Margin="10,0,0,0" Height="40"/>
             <Button x:Name="btSetProgramPtr" Content="SPP" HorizontalAlignment="Left" Width="40" Command="{Binding BtSetProgramPointer}"  Margin="10,0,0,0" Height="40"/>
             <Button x:Name="btPlayFromPointer" Content="Play" HorizontalAlignment="Left" Width="40" Command="{Binding BtPlayFromPointer}"  Margin="10,0,0,0" Height="40"/>
+            <Button x:Name="btStop" Content="Stop" HorizontalAlignment="Left" Width="40" Command="{Binding BtStop}"  Margin="10,0,0,0" Height="40"/>
         </ToolBarPanel>
         <ListView x:Name="ProgramList" HorizontalAlignment="Left" Height="260" Margin="10,10,0,0" VerticalAlignment="Top" Width="415" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" MaxHeight="280" SelectionChanged="ProgramList_SelectionChanged" Background="White">
             <ListView.View>

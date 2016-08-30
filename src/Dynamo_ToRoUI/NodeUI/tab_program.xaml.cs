@@ -50,6 +50,7 @@ namespace Dynamo_TORO.NodeUI
             btSendToRS.IsEnabled = false;
             btSetProgramPtr.IsEnabled = false;
             btPlayFromPointer.IsEnabled = false;
+            btStop.IsEnabled = false;
 
         }
 
@@ -93,6 +94,7 @@ namespace Dynamo_TORO.NodeUI
                     btSendToRS.IsEnabled = true;
                     btSetProgramPtr.IsEnabled = true;
                     btPlayFromPointer.IsEnabled = true;
+                    btStop.IsEnabled = true;
 
                 }
             }
@@ -108,6 +110,7 @@ namespace Dynamo_TORO.NodeUI
                 btSendToRS.IsEnabled = true;
                 btSetProgramPtr.IsEnabled = true;
                 btPlayFromPointer.IsEnabled = true;
+                btStop.IsEnabled = true;
 
             }
         }
