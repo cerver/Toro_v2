@@ -4,19 +4,44 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Dynamo_TORO.NodeUI"
-             xmlns:Dynamo_TORO="clr-namespace:Dynamo_TORO;assembly=DYNAMO_TORO" x:Name="remotePanelMain" x:Class="Dynamo_TORO.NodeUI.tab_program"
+             xmlns:Dynamo_TORO="clr-namespace:Dynamo_TORO;assembly=DYNAMO_TORO"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             x:Name="remotePanelMain" x:Class="Dynamo_TORO.NodeUI.tab_program"
              mc:Ignorable="d" 
              d:DesignHeight="300" Width="500">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="wfpStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
         <ToolBarPanel HorizontalAlignment="Left"  Height="280" Margin="430,10,0,0" VerticalAlignment="Top" Width="60">
-            <Button x:Name="BtLoadFile" Content="..." Command="{Binding BtGetPrgFile}" HorizontalAlignment="Left" Width="40" Margin="10,0,0,0" Height="40"/>
-            <Button x:Name="btGetControlers" Content="RS Ctrl" HorizontalAlignment="Left" Width="40"  Margin="10,0,0,0" Height="40" Click="btGetControlers_Click"/>
-            <Button x:Name="btSendToRS" Content="D-RS" HorizontalAlignment="Left" Width="40" Command="{Binding BtSendProgramToRs}" Margin="10,0,0,0" Height="40"/>
-            <Button x:Name="btSetProgramPtr" Content="SPP" HorizontalAlignment="Left" Width="40" Command="{Binding BtSetProgramPointer}"  Margin="10,0,0,0" Height="40"/>
-            <Button x:Name="btPlayFromPointer" Content="Play" HorizontalAlignment="Left" Width="40" Command="{Binding BtPlayFromPointer}"  Margin="10,0,0,0" Height="40"/>
-            <Button x:Name="btStop" Content="Stop" HorizontalAlignment="Left" Width="40" Command="{Binding BtStop}"  Margin="10,0,0,0" Height="40"/>
+            <Button x:Name="btSendToRS" Style="{DynamicResource imgButton}" Content="" HorizontalAlignment="Left" Width="40" Command="{Binding BtSendProgramToRs}" Margin="10,0,0,0" Height="40" BorderBrush="{x:Null}" BorderThickness="1" ToolTip="Send RAPID Code to Robot Studio" Foreground="{x:Null}">
+                <Button.Background>
+                    <ImageBrush ImageSource="/DYNAMO_ToRoUI;component/Resources/send.png"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="btSetProgramPtr" Style="{DynamicResource imgButton}" Content="SPP" HorizontalAlignment="Left" Width="40" Command="{Binding BtSetProgramPointer}"  Margin="10,0,0,0" Height="40" BorderBrush="{x:Null}" ToolTip="Set Program Pointer" Foreground="{x:Null}">
+                <Button.Background>
+                    <ImageBrush ImageSource="/DYNAMO_ToRoUI;component/Resources/SetPP.png"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="btPlayFromPointer" Style="{DynamicResource imgButton}" Content="" HorizontalAlignment="Left" Width="40" Command="{Binding BtPlayFromPointer}"  Margin="10,0,0,0" Height="40" BorderBrush="{x:Null}" ToolTip="Play simulation at current position">
+                <Button.Background>
+                    <ImageBrush ImageSource="/DYNAMO_ToRoUI;component/Resources/Play.png"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="btStop" Style="{DynamicResource imgButton}"  HorizontalAlignment="Left" Width="40" Command="{Binding BtStop}"  Margin="10,0,0,0" Height="40" BorderBrush="{x:Null}"  ToolTip="Pause Simulation">
+                <Button.Background>
+                    <ImageBrush ImageSource="/DYNAMO_ToRoUI;component/Resources/Pause_Icon.png"/>
+                </Button.Background>
+            </Button>
         </ToolBarPanel>
-        <ListView x:Name="ProgramList" HorizontalAlignment="Left" Height="260" Margin="10,10,0,0" VerticalAlignment="Top" Width="415" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" MaxHeight="280" SelectionChanged="ProgramList_SelectionChanged" Background="White">
+        <ListView x:Name="ProgramList" HorizontalAlignment="Left" Height="260" Margin="10,10,0,0" VerticalAlignment="Top" Width="415" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" MaxHeight="280" SelectionChanged="ProgramList_OnSelectionChanged"  Background="White">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="40" Header="#" DisplayMemberBinding="{Binding LineNum}"/>
@@ -25,7 +50,7 @@
             </ListView.View>
         </ListView>
         <TextBlock x:Name="TbFileLoc" HorizontalAlignment="Left" Margin="10,275,0,0" TextWrapping="Wrap" Text="null" VerticalAlignment="Top" Width="415" FontSize="9"/>
-        <local:tab_ConnectToRS x:Name="UIconnectToRS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Panel.ZIndex="5" Height="260" Visibility="Hidden"/>
+        
 
     </Grid>
 </UserControl>

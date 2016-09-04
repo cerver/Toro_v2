@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Windows.Controls;
+using WinForm = System.Windows.Forms;
 using System.Xml;
+using ABB.Robotics.Controllers;
 using ABB.Robotics.Controllers.RapidDomain;
 using Autodesk.DesignScript.Geometry;
 using Autodesk.DesignScript.Runtime;
@@ -45,7 +47,12 @@ namespace Dynamo_TORO
         private bool _differUpdate = false;
         private bool _exacutionComplete = false;
         private string[] _fileContents;
-        private string _fileLoc = null;
+        private string _ModFileLoc = null;
+        private string _PgfFileLoc = null;
+        private string _trob1DirLoc = null;
+        private int _selectedCtrlIndex = -1;
+
+
         private List<ProgramItem> _program = new List<ProgramItem>();
 
         internal System.Threading.Tasks.Task RunUiProgUpdate;
@@ -55,18 +62,41 @@ namespace Dynamo_TORO
 
         #region properties
         [IsVisibleInDynamoLibrary(false)]
-        public string ProgFileLoc
+        public string ProgModFileLoc
         {
             get
             {
-                return _fileLoc;
+                return _ModFileLoc;
             }
             set
             {
-                _fileLoc = value;
+                _ModFileLoc = value;
                 RaisePropertyChanged("NodeMessage");
             }
         }
+
+        [IsVisibleInDynamoLibrary(false)]
+        public int SelectedCtrlIndex
+        {
+            get
+            {
+                return _selectedCtrlIndex;
+            }
+            set
+            {
+                _selectedCtrlIndex = value;
+                RaisePropertyChanged("NodeMessage");
+                if (_selectedCtrlIndex >= 0)
+                {
+                    CustomUi.ProgramPanel.enableButtons();
+                }
+                else
+                {
+                    CustomUi.ProgramPanel.disableButtons();
+                }
+            }
+        }
+
         
 
         /// <summary>
@@ -74,7 +104,9 @@ namespace Dynamo_TORO
         /// UI interaction to methods on your data context.
         /// </summary>
         [IsVisibleInDynamoLibrary(false)]
-        public DelegateCommand BtGetPrgFile { get; set; }
+        public DelegateCommand BtGetExistRapidFile { get; set; }
+        [IsVisibleInDynamoLibrary(false)]
+        public DelegateCommand BtMakeNewRapidFile { get; set; }
 
         [IsVisibleInDynamoLibrary(false)]
         public DelegateCommand BtSendProgramToRs { get; set; }
@@ -85,6 +117,8 @@ namespace Dynamo_TORO
         public DelegateCommand BtPlayFromPointer { get; set; }
         [IsVisibleInDynamoLibrary(false)]
         public DelegateCommand BtStop { get; set; }
+        [IsVisibleInDynamoLibrary(false)]
+        public DelegateCommand ProgramPointerChangedCommand { get; set; }
 
         [IsVisibleInDynamoLibrary(false)]
         internal delegate List<object> GetInputDelegate(int inputNum);
@@ -131,11 +165,13 @@ namespace Dynamo_TORO
             // inputs of lists. If you don't want your node to
             // support argument lacing, you can set this to LacingStrategy.Disabled.
             ArgumentLacing = LacingStrategy.Shortest;
-            BtGetPrgFile = new DelegateCommand(GetPrgFileBtnClicked, IsOk);
+            BtGetExistRapidFile = new DelegateCommand(GetExistingRapidFileBtnClicked, IsOk);
+            BtMakeNewRapidFile = new DelegateCommand(MakeNewRapidFileBtnClicked, IsOk);
             BtSendProgramToRs = new DelegateCommand(SendProgramToRsClicked, IsOk);
             BtSetProgramPointer = new DelegateCommand(SetProgramPointer, IsOk);
             BtPlayFromPointer = new DelegateCommand(PlayFromPointer, IsOk);
             BtStop = new DelegateCommand(StopSim, IsOk);
+            ProgramPointerChangedCommand = new DelegateCommand(StopSim, IsOk);
 
             //  ExecutionEvents.GraphPostExecution += ExecutionEvents_GraphPostExecution;
             // ExecutionEvents.GraphPreExecution += ExecutionEvents_GraphPreExecution;
@@ -212,10 +248,10 @@ namespace Dynamo_TORO
                 string progData = string.Empty;
 
                 _fileExists = false;
-                if (CustomUi != null && _fileLoc != null)
+                if (CustomUi != null && _ModFileLoc != null)
                 {
 
-                    _fileExists = File.Exists(_fileLoc);
+                    _fileExists = File.Exists(_ModFileLoc);
                     if (_fileExists && HasConnectedInput(0) && HasConnectedInput(1) && HasConnectedInput(2) &&
                         HasConnectedInput(3))
                     {
@@ -223,7 +259,7 @@ namespace Dynamo_TORO
                             new TaskFactory().StartNew(
                                 () =>
                                     progData =
-                                        ToroUIfunctions.processUIdata(_fileLoc, cnstList, instList, toolList, wobjList));
+                                        ToroUIfunctions.processUIdata(_ModFileLoc, cnstList, instList, toolList, wobjList));
                         RunProcessRapidCode.Wait();
                         _programData = AstFactory.BuildStringNode(progData);
                         GetFileDataAndPopulatePanel(false);
@@ -238,8 +274,8 @@ namespace Dynamo_TORO
             }
 
             AssociativeNode _controler;
-            if (CustomUi != null && CustomUi.ProgramPanel.selectedControler != null)
-                _controler = AstFactory.BuildExprList(new List<string>(CustomUi.ProgramPanel.selectedControler));
+            if (CustomUi != null && CustomUi.SetupPanel.selectedControler != null)
+                _controler = AstFactory.BuildExprList(new List<string>(CustomUi.SetupPanel.selectedControler));
             else
             {
                 _controler = AstFactory.BuildNullNode();
@@ -260,9 +296,17 @@ namespace Dynamo_TORO
             if (true)
             {
 
-                XmlElement prgFileLocElement = nodeElement.OwnerDocument.CreateElement("PrgFileLocation");
-                prgFileLocElement.SetAttribute("value", _fileLoc);
-                nodeElement.AppendChild(prgFileLocElement);
+                XmlElement modFileLocElement = nodeElement.OwnerDocument.CreateElement("ModFileLocation");
+                modFileLocElement.SetAttribute("value", _ModFileLoc);
+                nodeElement.AppendChild(modFileLocElement);
+
+                XmlElement pgfFileLocElement = nodeElement.OwnerDocument.CreateElement("PgfFileLocation");
+                pgfFileLocElement.SetAttribute("value", _PgfFileLoc);
+                nodeElement.AppendChild(pgfFileLocElement);
+
+                XmlElement trob1DirLocElement = nodeElement.OwnerDocument.CreateElement("Trob1DirLocation");
+                trob1DirLocElement.SetAttribute("value", _trob1DirLoc);
+                nodeElement.AppendChild(trob1DirLocElement);
             }
            
 
@@ -275,22 +319,35 @@ namespace Dynamo_TORO
 
             foreach (XmlNode subNode in nodeElement.ChildNodes)
             {
-
-                if (subNode.Name.Equals("PrgFileLocation"))
+                if (subNode.Name.Equals("PgfFileLocation"))
                 {
                     try
                     {
-                        _fileLoc = subNode.Attributes[0].Value;
-                        GetFileDataAndPopulatePanel(true);
+                        _PgfFileLoc = subNode.Attributes[0].Value;
                     }
-                    catch
+                    catch { }
+                }
+                if (subNode.Name.Equals("Trob1DirLocation"))
+                {
+                    try
                     {
-                     
+                        _trob1DirLoc = subNode.Attributes[0].Value;
                     }
-
+                    catch { }
                 }
 
-        
+                if (subNode.Name.Equals("ModFileLocation"))
+                {
+                    try
+                    {
+                        _ModFileLoc = subNode.Attributes[0].Value;
+                        GetFileDataAndPopulatePanel(true);
+                    }
+                    catch { }
+                }
+              
+
+
             }
 
         }
@@ -308,45 +365,125 @@ namespace Dynamo_TORO
             return true;
         }
 
-        internal void GetPrgFileBtnClicked(object obj)
+
+
+        internal void GetExistingRapidFileBtnClicked(object obj)
         {
-            OpenFileDialog openFile = new OpenFileDialog();
-            if (openFile.ShowDialog() == true)
+            try
             {
-                _fileLoc = openFile.FileName;
-                GetFileDataAndPopulatePanel(true);
-                CustomUi.ProgramPanel.fileLoc = _fileLoc;
+                WinForm.FolderBrowserDialog fbDialog = new WinForm.FolderBrowserDialog();
+                fbDialog.Description = "Select a folder where the existing Rapid files are. This is the directory which contains the MainModule.mod and the T_ROB1.pgf file ";
+
+                if (fbDialog.ShowDialog() == WinForm.DialogResult.OK)
+                {
+                    _trob1DirLoc = fbDialog.SelectedPath;
+                    _PgfFileLoc = fbDialog.SelectedPath + @"\T_ROB1.pgf";
+                    _ModFileLoc = fbDialog.SelectedPath + @"\MainModule.mod";
+
+                    if (File.Exists(_PgfFileLoc) && File.Exists(_ModFileLoc))
+                    {
+                        GetFileDataAndPopulatePanel(true);
+                        CustomUi.ProgramPanel.TbFileLoc.Text = _ModFileLoc;
+                        CustomUi.SetupPanel.TxRapidFileLoc.Content = _ModFileLoc;
+                    }
+                    else
+                    {
+                        throw new Exception("The MainModule.mod file or the T_ROB1.pgf file is missing");
+                    }
+
+                }
+            }
+            catch (Exception exception)
+            {
+        
+            }
+           
+
+        }
+        internal void MakeNewRapidFileBtnClicked(object obj)
+        {
+            WinForm.FolderBrowserDialog fbDialog = new WinForm.FolderBrowserDialog();
+            fbDialog.Description = "Select a folder where the new Rapid files will be placed";
+
+            if (fbDialog.ShowDialog() == WinForm.DialogResult.OK)
+            {
+                try
+                {
+                    string currentDir = fbDialog.SelectedPath + @"\T_ROB1";
+                    Directory.CreateDirectory(currentDir);
+                    string newModFile = currentDir + @"\MainModule.mod";
+                    File.WriteAllText(newModFile, "");
+
+                    _ModFileLoc = newModFile;
+                    var pgfFileLoc = currentDir + @"\T_ROB1.pgf";
+                    _PgfFileLoc = pgfFileLoc;
+
+                    GetFileDataAndPopulatePanel(true);
+                    CustomUi.ProgramPanel.TbFileLoc.Text = _ModFileLoc;
+                    CustomUi.SetupPanel.TxRapidFileLoc.Content = _ModFileLoc;
+
+                    
+
+                    File.WriteAllText(pgfFileLoc, @"<?xml version=""1.0"" encoding=""ISO-8859-1"" ?>
+<Program>
+ <Module>MainModule.mod</Module>
+</Program> ");
+                    
+                
+
+                }
+                catch (Exception exception)
+                {
+                   
+                }
+                
+
             }
 
         }
 
         internal void SendProgramToRsClicked(object obj)
         {
-            SendFileToRs sendFile = new SendFileToRs(RobComm.ProgramFileToController);
-            try
+            if (CustomUi.SetupPanel.hasController & File.Exists(_PgfFileLoc))
             {
-                sendFile(true, CustomUi.ProgramPanel.selectedControler, _fileLoc);
-            }
-            catch (Exception e)
-            {
+                SendFileToRs sendFile = new SendFileToRs(RobComm.ProgramFileToController);
+                try
+                {
+                    sendFile(true, CustomUi.SetupPanel.selectedControler, _PgfFileLoc);
+                }
+                catch (Exception e)
+                {
 
-                throw new Exception(e.Message);
+                    throw new Exception(e.Message);
+                }
             }
+
+            
             
 
         }
         
         internal void SetProgramPointer(object obj)
         {
-            RobComm.setProgramPointer(true, CustomUi.ProgramPanel.selectedControler, CustomUi.ProgramPanel.ProgramList.SelectedIndex+1);
+            if (CustomUi.SetupPanel.hasController)
+            {
+                RobComm.setProgramPointer(true, CustomUi.SetupPanel.selectedControler,
+                    CustomUi.ProgramPanel.selectecIndex + 1);
+            }
         }
         internal void PlayFromPointer(object obj)
         {
-            RobComm.playFromPointerLoc(true, CustomUi.ProgramPanel.selectedControler);
+            if (CustomUi.SetupPanel.hasController)
+            {
+                RobComm.playFromPointerLoc(true, CustomUi.SetupPanel.selectedControler);
+            }
         }
         internal void StopSim(object obj)
         {
-            RobComm.StopSim(true, CustomUi.ProgramPanel.selectedControler);
+            if (CustomUi.SetupPanel.hasController)
+            {
+                RobComm.StopSim(true, CustomUi.SetupPanel.selectedControler);
+            }
         }
 
 
@@ -390,7 +527,6 @@ namespace Dynamo_TORO
             var inputNameIndex = NodeModel.InPorts[inputNum].Connectors[0].Start.Index;
             var inputNameId = inputNamenode.GetAstIdentifierForOutputIndex(inputNameIndex).Name;
             var inputNameMirror = NodeView.ViewModel.DynamoViewModel.Model.EngineController.GetMirror(inputNameId);
-            //    var inputName = inputNameMirror.GetData().Data as string;
 
             var input = new List<object>();
 
@@ -416,15 +552,16 @@ namespace Dynamo_TORO
 
         internal void GetFileDataAndPopulatePanel(bool isFromUi)
         {
-            if (_fileLoc != null && CustomUi != null)
+            if (_ModFileLoc != null && CustomUi != null)
             {
-                if (File.Exists(_fileLoc))
+                if (File.Exists(_ModFileLoc) && File.Exists(_PgfFileLoc))
                 {
-                    _fileContents = System.IO.File.ReadAllLines(_fileLoc);
+                    _fileContents = System.IO.File.ReadAllLines(_ModFileLoc);
                     _program = new List<ProgramItem>(_fileContents.Length);
                     if (CustomUi.ProgramPanel.ProgramList.IsInitialized)
                         CustomUi.ProgramPanel.ProgramList.Items.Clear();
-                    CustomUi.ProgramPanel.TbFileLoc.Text = _fileLoc;
+                    CustomUi.ProgramPanel.TbFileLoc.Text = _ModFileLoc;
+                    CustomUi.SetupPanel.TxRapidFileLoc.Content = _ModFileLoc;
 
                     for (int i = 0; i < _fileContents.Length; i++)
                     {
@@ -481,10 +618,10 @@ namespace Dynamo_TORO
             selectNodeControl.DataContext = model;
             model.CustomUi = selectNodeControl;
             model.NodeView = nodeView;
-            if (File.Exists(model.ProgFileLoc))
+            if (File.Exists(model.ProgModFileLoc))
             {
                 model.GetFileDataAndPopulatePanel(true);
-                selectNodeControl.ProgramPanel.fileLoc = model.ProgFileLoc;
+                
             }
         }
 

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ABB.Robotics.Controllers.RapidDomain;
 using Autodesk.DesignScript.Geometry;
 using Autodesk.DesignScript.Runtime;
+using Task = System.Threading.Tasks.Task;
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -36,6 +38,22 @@ namespace Dynamo_TORO
 {
     internal class RobotUtils
     {
+        public static Pose PlaneToPose(Plane plane)
+        {
+            var quat = PlaneToQuaternian(plane);
+
+            Pose pose = new Pose();
+            pose.Rot.Q1 = quat[0];
+            pose.Rot.Q2 = quat[1];
+            pose.Rot.Q3 = quat[2];
+            pose.Rot.Q4 = quat[3];
+
+            pose.Trans.X = (float)plane.Origin.X;
+            pose.Trans.Y = (float)plane.Origin.Y;
+            pose.Trans.Z = (float)plane.Origin.Z;
+
+            return pose;
+        }
 
         public static List<double> PlaneToQuaternian(Plane plane)
         {

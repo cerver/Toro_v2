@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Dynamo_TORO.NodeUI.tab_Setup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Dynamo_TORO.NodeUI"
+             mc:Ignorable="d" d:DesignWidth="500" Height="300">
+    <Grid Background="#BFFFFFFF" Margin="0,0,0,10.333">
+        <GroupBox x:Name="groupBox" Header="IRC Controller" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="113" Width="480"/>
+        <Button x:Name="btRefreshSearch" Content="" HorizontalAlignment="Left" Margin="22,30,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btGetControlers_Click" Panel.ZIndex="10" BorderThickness="0" BorderBrush="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="/DYNAMO_ToRoUI;component/Resources/Refresh.png"/>
+            </Button.Background>
+        </Button>
+        <TextBox x:Name="tbSelectedCtrl" HorizontalAlignment="Left" Height="63" Margin="279,53,0,0" VerticalAlignment="Top" Width="202" Panel.ZIndex="10" FontSize="8"/>
+        <Label x:Name="label1" Content="Controller List" HorizontalAlignment="Left" Margin="65,26,0,0" VerticalAlignment="Top" Foreground="Gray"/>
+        <Label x:Name="lblSelectedController" Content="Selected Controller" HorizontalAlignment="Left" Margin="279,26,0,0" VerticalAlignment="Top" Foreground="Gray"/>
+        <GroupBox x:Name="groupBox_controller" Header="IRC Controller" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="113" Width="480">
+
+        </GroupBox>
+        <ListBox x:Name="controlerListView" SelectionChanged="controlerListView_SelectionChanged" HorizontalAlignment="Left" Height="63" Margin="65,53,0,0" VerticalAlignment="Top" Width="209"/>
+        <GroupBox x:Name="groupBox1" Header="RAPID File" HorizontalAlignment="Left" Margin="10,128,0,0" VerticalAlignment="Top" Height="71" Width="471">
+            <Label x:Name="TxRapidFileLoc" Content="&lt;---Create or Open a RAPID File" HorizontalAlignment="Left" Height="27" Margin="98,20,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.55,0.216" Width="354" FontSize="10"/>
+        </GroupBox>
+        <Button x:Name="btNewPrfFile" Content="" Command="{Binding BtMakeNewRapidFile}"  HorizontalAlignment="Left" Margin="22,150,0,0" VerticalAlignment="Top" Width="40" Height="40"  Panel.ZIndex="10" BorderThickness="0">
+            <Button.Background>
+                <ImageBrush ImageSource="/DYNAMO_ToRoUI;component/Resources/NewFile.png"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="btOpenExisting" Command="{Binding BtGetExistRapidFile}" Content="" HorizontalAlignment="Left" Margin="69,150,0,0" VerticalAlignment="Top" Width="40" Height="40"  Panel.ZIndex="10" BorderThickness="0" BorderBrush="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="/DYNAMO_ToRoUI;component/Resources/list-menu.png"/>
+            </Button.Background>
+        </Button>
+        <Label x:Name="label" Content="Selected RAPID File:" HorizontalAlignment="Left" Margin="117,145,0,0" VerticalAlignment="Top" Width="157" Foreground="Gray"/>
+
+    </Grid>
+</UserControl>

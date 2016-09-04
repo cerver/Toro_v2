@@ -1,0 +1,7 @@
+D:\GoogleDrive\Code\Toro_v2\src\WireFrameToRobot\bin\Release\aWireFrameToRobot.dll
+D:\GoogleDrive\Code\Toro_v2\src\WireFrameToRobot\bin\Release\aWireFrameToRobot.pdb
+D:\GoogleDrive\Code\Toro_v2\src\WireFrameToRobot\bin\Release\DynamoServices.dll
+D:\GoogleDrive\Code\Toro_v2\src\WireFrameToRobot\bin\Release\DynamoText.dll
+D:\GoogleDrive\Code\Toro_v2\src\WireFrameToRobot\bin\Release\DynamoText.pdb
+D:\GoogleDrive\Code\Toro_v2\src\WireFrameToRobot\obj\Release\aWireFrameToRobot.dll
+D:\GoogleDrive\Code\Toro_v2\src\WireFrameToRobot\obj\Release\aWireFrameToRobot.pdb

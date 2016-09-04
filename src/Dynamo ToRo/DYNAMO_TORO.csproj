@@ -33,25 +33,11 @@
   <ItemGroup>
     <Reference Include="ABB.Robotics.Controllers.PC, Version=6.3.7016.2009, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\RSSDK\ABB.Robotics.Controllers.PC.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\SDK\PCSDK 6.03\ABB.Robotics.Controllers.PC.dll</HintPath>
     </Reference>
     <Reference Include="ABB.Robotics.Math, Version=6.3.7016.2009, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\RSSDK\ABB.Robotics.Math.dll</HintPath>
-    </Reference>
-    <Reference Include="ABB.Robotics.RobotStudio, Version=6.3.7016.2009, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\RSSDK\ABB.Robotics.RobotStudio.dll</HintPath>
-    </Reference>
-    <Reference Include="ABB.Robotics.RobotStudio.Controllers">
-      <HintPath>..\..\RSSDK\ABB.Robotics.RobotStudio.Controllers.dll</HintPath>
-    </Reference>
-    <Reference Include="ABB.Robotics.RobotStudio.Environment">
-      <HintPath>..\..\RSSDK\ABB.Robotics.RobotStudio.Environment.dll</HintPath>
-    </Reference>
-    <Reference Include="ABB.Robotics.RobotStudio.Stations, Version=6.3.7016.2009, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\RSSDK\ABB.Robotics.RobotStudio.Stations.dll</HintPath>
     </Reference>
     <Reference Include="DynamoCore, Version=1.1.0.2094, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -77,6 +63,12 @@
       <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Dynamo Studio 2016\ProtoGeometry.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="RobotStudio.Services.RobApi">
+      <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\SDK\PCSDK 6.03\RobotStudio.Services.RobApi.dll</HintPath>
+    </Reference>
+    <Reference Include="RobotStudio.Services.RobApi.Desktop">
+      <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\SDK\PCSDK 6.03\RobotStudio.Services.RobApi.Desktop.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />
@@ -89,7 +81,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SimulationFunction.cs" />
+    <None Include="SimulationFunction.cs" />
     <Compile Include="WIP_ROBARCH.cs" />
     <Compile Include="WIP_WELDING.cs" />
     <Compile Include="TORO_UTILS.cs" />

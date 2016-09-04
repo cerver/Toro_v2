@@ -32,11 +32,8 @@ namespace Dynamo_TORO.NodeUI
             pointerUpdated?.Invoke(this, e);
         }
 
-        public string fileLoc = null;
         public List<ProgramItem> program = new List<ProgramItem>();
-
-        public string[] selectedControler = null;
-        public Controller controller = null;
+        public int selectecIndex = 0;
 
         public tab_program()
         {
@@ -45,8 +42,30 @@ namespace Dynamo_TORO.NodeUI
             {
                 ProgramList.Items.Add(prg);
             }
-            UIconnectToRS.Visibility = Visibility.Hidden;
-            UIconnectToRS.MouseLeave += UIconnectToRsOnMouseLeave;
+
+            disableButtons();
+
+        }
+
+    
+
+      
+
+        private void NewTaskOnMotionPointerChanged(object sender, ProgramPositionEventArgs programPositionEventArgs)
+        {
+            OnPointerChanged(EventArgs.Empty);
+        }
+
+        public void enableButtons()
+        {
+            btSendToRS.IsEnabled = true;
+            btSetProgramPtr.IsEnabled = true;
+            btPlayFromPointer.IsEnabled = true;
+            btStop.IsEnabled = true;
+
+        }
+        public void disableButtons()
+        {
             btSendToRS.IsEnabled = false;
             btSetProgramPtr.IsEnabled = false;
             btPlayFromPointer.IsEnabled = false;
@@ -54,67 +73,11 @@ namespace Dynamo_TORO.NodeUI
 
         }
 
-    
 
-        private void ProgramList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ProgramList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Guid systemId = new Guid(selectedControler[1]);
-            controller = new Controller(systemId);
-            controller.Logon(UserInfo.DefaultUser);
-            
-            var newTask = controller.Rapid.GetTask("T_ROB1");
-            using (Mastership.Request(controller.Rapid))
-            {
-                newTask.MotionPointerChanged += NewTaskOnMotionPointerChanged;
-            }
-            
+            selectecIndex = ProgramList.SelectedIndex;
         }
-
-        private void NewTaskOnMotionPointerChanged(object sender, ProgramPositionEventArgs programPositionEventArgs)
-        {
-            OnPointerChanged(EventArgs.Empty);
-        }
-
-
-        private void btGetControlers_Click(object sender, RoutedEventArgs e)
-        {
-            if (UIconnectToRS.Visibility == Visibility.Hidden)
-            {
-                UIconnectToRS.Visibility = Visibility.Visible;
-                UIconnectToRS.RefreshSearch();
-
-            }
-            else
-            {
-                UIconnectToRS.Visibility = Visibility.Hidden;
-                if (UIconnectToRS.selectedControler != null)
-                {
-
-                    selectedControler = UIconnectToRS.selectedControler;
-                    btSendToRS.IsEnabled = true;
-                    btSetProgramPtr.IsEnabled = true;
-                    btPlayFromPointer.IsEnabled = true;
-                    btStop.IsEnabled = true;
-
-                }
-            }
-        }
-
-        private void UIconnectToRsOnMouseLeave(object sender, MouseEventArgs mouseEventArgs)
-        {
-            UIconnectToRS.Visibility = Visibility.Hidden;
-            if (UIconnectToRS.selectedControler != null)
-            {
-
-                selectedControler = UIconnectToRS.selectedControler;
-                btSendToRS.IsEnabled = true;
-                btSetProgramPtr.IsEnabled = true;
-                btPlayFromPointer.IsEnabled = true;
-                btStop.IsEnabled = true;
-
-            }
-        }
-
     }
 
 

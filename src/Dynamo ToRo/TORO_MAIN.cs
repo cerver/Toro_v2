@@ -6,16 +6,21 @@ using System.Linq;
 using System.IO;
 using System.Linq.Expressions;
 using System.Text;
+using ABB.Robotics;
 using ABB.Robotics.Controllers;
 using ABB.Robotics.Controllers.Discovery;
-using RSS = ABB.Robotics.RobotStudio.Stations ;
 using ABB.Robotics.Controllers.RapidDomain;
+using ABB.Robotics.Controllers.MotionDomain;
 using ABB.Robotics.Math;
-using ABB.Robotics.RobotStudio;
+using Adapters;
 using Autodesk.DesignScript.Geometry;
 using Autodesk.DesignScript.Runtime;
+using Controller = ABB.Robotics.Controllers.Controller;
+using Module = ABB.Robotics.Controllers.RapidDomain.Module;
 using Plane = Autodesk.DesignScript.Geometry.Plane;
-using Dynamo_TORO.SimFunctions;
+using Task = ABB.Robotics.Controllers.RapidDomain.Task;
+
+//using Dynamo_TORO.SimFunctions;
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -55,7 +60,7 @@ namespace Dynamo_TORO
     //////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////
-
+    /*
     /// <summary>
     /// simulate robot.
     /// </summary>
@@ -83,7 +88,7 @@ namespace Dynamo_TORO
 
 
     }
-
+    */
     /// <summary>
     /// Create datatype.
     /// </summary>
@@ -99,48 +104,66 @@ namespace Dynamo_TORO
         //////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////
 
+        /*
+                public static bool CreateTool(string[] controllerData, string ToolName, Mesh ToolGeom, Plane AttachmentPl, Plane ToolTip)
+                {
 
-        public static bool CreateTool(string[] controllerData, string ToolName, Mesh ToolGeom, Plane AttachmentPl, Plane ToolTip)
+
+
+                    Station station = Project.ActiveProject as RSS.Station;
+                    RSS.RsTask task = station.ActiveTask;
+
+                    // create sample geometry
+                    Part part = new Part();
+                    RSS.MeshBody tool = ToroHelpFunc.MeshToMeshBody(ToolGeom);
+                    part.Bodies.Add(tool.Body);
+                    part.Name = ToolName + "_Mesh";
+
+                    // create new tool
+                    RSS.MechanismBuilder b = new RSS.MechanismBuilder(RSS.MechanismType.Tool);
+                    b.Name = ToolName;
+                    b.ModelName = ToolName+"_Model";
+
+                    string link = "Geometry";
+                    b.AddLink(link, part);
+                    b.BaseLink = link;
+
+                    Matrix4 offset = Matrix4.Identity;
+                    offset.TranslateLocal(ToolTip.Origin.X, ToolTip.Origin.Y, ToolTip.Origin.Z);
+                    // ...
+                    List<double> atQuat = Utilities.QuatListAtPlane(AttachmentPl);
+                    b.SetLoadData(1.0,new Vector3(AttachmentPl.Origin.X, AttachmentPl.Origin.Y, AttachmentPl.Origin.Z),new Quaternion(atQuat[0], atQuat[1], atQuat[2],atQuat[3]),new Vector3(AttachmentPl.Normal.X, AttachmentPl.Normal.Y, AttachmentPl.Normal.Z)  );
+                    // assign gravity, offset, ...
+                    b.AddToolData(ToolName+"_Data", link, offset);
+
+                    RSS.Mechanism mechTool = b.CompileMechanism();
+                    mechTool.Name = ToolName+"_Mech";
+
+                    station.GraphicComponents.Add(mechTool);
+
+                    // and attach it to the flange:
+                    // of course you should check if flange does exist and so on
+                    task.Mechanism.GetFlanges()[0].Attach(mechTool, true);
+
+                    return true;
+                }
+        */
+
+        /// <summary>
+        /// Create Tool
+        /// </summary>
+        /// <param name="attacmentPlane">Coordinate</param>
+        /// <param name="toolTip">Coordinate</param>
+        /// <param name="toolGeom">Coordinate</param>
+      
+        /// <returns></returns>
+        public static ToolData EoaToolData(Plane attacmentPlane, Plane toolTip, Geometry toolGeom)
         {
-        
-            RSS.Station station = Project.ActiveProject as RSS.Station;
-            RSS.RsTask task = station.ActiveTask;
+            ToolData tool = new ToolData();
+            tool.Tframe = RobotUtils.PlaneToPose(toolTip);
 
-            // create sample geometry
-            RSS.Part part = new RSS.Part();
-            RSS.MeshBody tool = ToroHelpFunc.MeshToMeshBody(ToolGeom);
-            part.Bodies.Add(tool.Body);
-            part.Name = ToolName + "_Mesh";
-
-            // create new tool
-            RSS.MechanismBuilder b = new RSS.MechanismBuilder(RSS.MechanismType.Tool);
-            b.Name = ToolName;
-            b.ModelName = ToolName+"_Model";
-
-            string link = "Geometry";
-            b.AddLink(link, part);
-            b.BaseLink = link;
-            
-            Matrix4 offset = Matrix4.Identity;
-            offset.TranslateLocal(ToolTip.Origin.X, ToolTip.Origin.Y, ToolTip.Origin.Z);
-            // ...
-            List<double> atQuat = Utilities.QuatListAtPlane(AttachmentPl);
-            b.SetLoadData(1.0,new Vector3(AttachmentPl.Origin.X, AttachmentPl.Origin.Y, AttachmentPl.Origin.Z),new Quaternion(atQuat[0], atQuat[1], atQuat[2],atQuat[3]),new Vector3(AttachmentPl.Normal.X, AttachmentPl.Normal.Y, AttachmentPl.Normal.Z)  );
-            // assign gravity, offset, ...
-            b.AddToolData(ToolName+"_Data", link, offset);
-
-            RSS.Mechanism mechTool = b.CompileMechanism();
-            mechTool.Name = ToolName+"_Mech";
-            
-            station.GraphicComponents.Add(mechTool);
-
-            // and attach it to the flange:
-            // of course you should check if flange does exist and so on
-            task.Mechanism.GetFlanges()[0].Attach(mechTool, true);
-
-            return true;
+            return tool;
         }
-
 
         /// <summary>
         /// Create robot target from coordinate and quaternion values.
@@ -2495,8 +2518,18 @@ namespace Dynamo_TORO
             {
                 try
                 {
-                    scanner = new NetworkScanner();
-                    scanner.Scan();
+                    //todo: this is crasing dynamo, find out why
+                    try
+                    {
+                        scanner = new NetworkScanner();
+                        scanner.Scan();
+                    }
+                    catch (Exception e)
+                    {
+                        
+                        throw;
+                    }
+                    
 
                     
                 }
@@ -2828,9 +2861,9 @@ namespace Dynamo_TORO
                 Task newTask = controller.Rapid.GetTask("T_ROB1");
                 using (Mastership.Request(controller.Rapid))
                 {
-                    if (newTask.ExecutionStatus == TaskExecutionStatus.Stopped ||
-                        newTask.ExecutionStatus == TaskExecutionStatus.Ready)
-                        newTask.Stop();
+                    var execStatus = newTask.ExecutionStatus;
+                    if (execStatus == TaskExecutionStatus.Running)
+                        newTask.Stop(StopMode.Instruction);
                 }
                 controller.Logoff();
 
@@ -2849,6 +2882,7 @@ namespace Dynamo_TORO
     
     internal class ToroHelpFunc
     {
+        /*
         internal static RSS.MeshBody MeshToMeshBody(Mesh DMesh)
         {
             
@@ -2896,6 +2930,7 @@ namespace Dynamo_TORO
             return new RSS.MeshBody(faces);
             
         }
+        */
     }
 
 }

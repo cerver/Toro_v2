@@ -284,13 +284,9 @@
                 <TabItem Header="Program" Width="65" Style="{DynamicResource TabItemStyle1}" >
                     <local:tab_program x:Name="ProgramPanel" Margin="0,0,75,0" ></local:tab_program>
                 </TabItem>
-                <TabItem Header="Jog/Ctrl" Style="{DynamicResource TabItemStyle1}" >
-                    <Grid Background="Transparent" Margin="0,-1,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="13*"/>
-                            <ColumnDefinition Width="69*"/>
-                        </Grid.ColumnDefinitions>
-                    </Grid>
+                <TabItem Header="Setup" Style="{DynamicResource TabItemStyle1}" >
+                    <local:tab_Setup x:Name="SetupPanel"></local:tab_Setup>
+                  
                 </TabItem>
             </TabControl>
         </Expander>

@@ -155,15 +155,19 @@
             Functions for the UI controls
             </summary>
         </member>
-        <member name="T:Dynamo_TORO.RobotSimulation">
-            <summary>
-            simulate robot.
-            </summary>
-        </member>
         <member name="T:Dynamo_TORO.DataTypes">
             <summary>
             Create datatype.
             </summary>
+        </member>
+        <member name="M:Dynamo_TORO.DataTypes.EoaToolData(Autodesk.DesignScript.Geometry.Plane,Autodesk.DesignScript.Geometry.Plane,Autodesk.DesignScript.Geometry.Geometry)">
+            <summary>
+            Create Tool
+            </summary>
+            <param name="attacmentPlane">Coordinate</param>
+            <param name="toolTip">Coordinate</param>
+            <param name="toolGeom">Coordinate</param>
+            <returns></returns>
         </member>
         <member name="M:Dynamo_TORO.DataTypes.RobTargetAtVals(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)">
             <summary>
