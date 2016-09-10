@@ -18,6 +18,7 @@ using Dynamo.Wpf;
 
 using ProtoCore.AST.AssociativeAST;
 using Dynamo.Events;
+using Dynamo.ViewModels;
 using Dynamo_TORO.NodeUI;
 using Microsoft.Win32;
 using String = System.String;
@@ -30,6 +31,12 @@ namespace Dynamo_TORO
     [NodeDescription("Control Various function of a virtual or real ABB controler such as IRC5")]
     [NodeCategory("TORO.RobComm")]
     [IsDesignScriptCompatible]
+    [InPortNames("cnstList", "instList", "toolList", "wobjList")]
+    [InPortTypes("string", "string", "string", "string")]
+    [InPortDescriptions("List of constants", "List of instructions", "Tool data (EOAT)", "Work Object data")]
+    [OutPortNames("Program", "Controler")]
+    [OutPortTypes("string", "string[]")]
+    [OutPortDescriptions("This is the Rapid Program", "This is the current controler")]
     public class AbbRemotePendant : NodeModel
     {
 
@@ -58,6 +65,9 @@ namespace Dynamo_TORO
         internal System.Threading.Tasks.Task RunUiProgUpdate;
         internal System.Threading.Tasks.Task RunProcessRapidCode;
 
+        //run the getNodeInputs in async 
+        internal GetInputDelegate getInput;
+
         #endregion
 
         #region properties
@@ -72,6 +82,7 @@ namespace Dynamo_TORO
             {
                 _ModFileLoc = value;
                 RaisePropertyChanged("NodeMessage");
+               
             }
         }
 
@@ -89,6 +100,7 @@ namespace Dynamo_TORO
                 if (_selectedCtrlIndex >= 0)
                 {
                     CustomUi.ProgramPanel.enableButtons();
+                    OnNodeModified();
                 }
                 else
                 {
@@ -140,31 +152,10 @@ namespace Dynamo_TORO
         public AbbRemotePendant()
         {
 
-            //(string filePath, List<string> cnstList, List<string> instList, List<string> toolList, List<string> wobjList)
-
-            // When you create a UI node, you need to do the
-            // work of setting up the ports yourself. To do this,
-            // you can populate the InPortData and the OutPortData
-            // collections with PortData objects describing your ports.
-            //InPortData.Add(new PortData("Space", Resources.DMInPortToolTip));
-            InPortData.Add( new PortData("cnstList","List of constants"));
-            InPortData.Add(new PortData("instList", "List of instructions"));
-            InPortData.Add(new PortData("toolList", "Tool data (EOAT)"));
-            InPortData.Add(new PortData("wobjList", "Work Object data"));
-         
-            // Nodes can have an arbitrary number of inputs and outputs.
-            // If you want more ports, just create more PortData objects.
-            OutPortData.Add(new PortData("Program", "This is the Rapid Program"));
-            OutPortData.Add(new PortData("Controler", "This is the current controler"));
-
-            // This call is required to ensure that your ports are
-            // properly created.
             RegisterAllPorts();
 
-            // The arugment lacing is the way in which Dynamo handles
-            // inputs of lists. If you don't want your node to
-            // support argument lacing, you can set this to LacingStrategy.Disabled.
-            ArgumentLacing = LacingStrategy.Shortest;
+            ArgumentLacing = LacingStrategy.Longest;
+
             BtGetExistRapidFile = new DelegateCommand(GetExistingRapidFileBtnClicked, IsOk);
             BtMakeNewRapidFile = new DelegateCommand(MakeNewRapidFileBtnClicked, IsOk);
             BtSendProgramToRs = new DelegateCommand(SendProgramToRsClicked, IsOk);
@@ -176,21 +167,10 @@ namespace Dynamo_TORO
             //  ExecutionEvents.GraphPostExecution += ExecutionEvents_GraphPostExecution;
             // ExecutionEvents.GraphPreExecution += ExecutionEvents_GraphPreExecution;
             NodeModel = this;
-            if (CustomUi != null)
-            {
-                CustomUi.ProgramPanel.pointerUpdated += ProgramPanelOnPointerUpdated;
-                
-            }
-      
+
+    
 
         }
-
-        private void ProgramPanelOnPointerUpdated(object sender, EventArgs eventArgs)
-        {
-            ProgramPosition pp = (ProgramPosition) sender;
-            var a = 1;
-        }
-
 
         private void ExecutionEvents_GraphPreExecution(Dynamo.Session.IExecutionSession session)
         {
@@ -218,8 +198,8 @@ namespace Dynamo_TORO
         [IsVisibleInDynamoLibrary(false)]
         public override IEnumerable<AssociativeNode> BuildOutputAst(List<AssociativeNode> inputAstNodes)
         {
-            //run the getNodeInputs in async 
-            GetInputDelegate getInput = new GetInputDelegate(this.GetNodeInputs);
+
+            getInput = GetNodeInputs;
 
             //setup list to hold elements
             List<string> cnstList = new List<string>();
@@ -232,15 +212,13 @@ namespace Dynamo_TORO
             if (NodeModel != null && NodeView != null)
             {
                 if (HasConnectedInput(0))
-                    cnstList = getInput(0).OfType<string>().ToList();
+                    cnstList = getInput.Invoke(0).OfType<string>().ToList();
                 if (HasConnectedInput(1))
-                    instList = getInput(1).OfType<string>().ToList();
+                    instList = getInput.Invoke(1).OfType<string>().ToList();
                 if (HasConnectedInput(2))
-                    toolList = getInput(2).OfType<string>().ToList();
+                    toolList = getInput.Invoke(2).OfType<string>().ToList();
                 if (HasConnectedInput(3))
-                    wobjList = getInput(3).OfType<string>().ToList();
-
-                
+                    wobjList = getInput.Invoke(3).OfType<string>().ToList();
 
                 Func<string, List<string>, List<string>, List<string>, List<string>, string> func =
                     ToroUIfunctions.processUIdata;
@@ -273,19 +251,25 @@ namespace Dynamo_TORO
                 _programData = AstFactory.BuildStringNode("No program data created");
             }
 
-            AssociativeNode _controler;
-            if (CustomUi != null && CustomUi.SetupPanel.selectedControler != null)
-                _controler = AstFactory.BuildExprList(new List<string>(CustomUi.SetupPanel.selectedControler));
+            List<AssociativeNode> _controler = new List<AssociativeNode>(6);
+            if (CustomUi != null && CustomUi.SetupPanel.hasController)
+            {
+                foreach (var s in CustomUi.SetupPanel.selectedControler)
+                {
+                    _controler.Add(AstFactory.BuildStringNode(s));
+                }
+            }
+                
             else
             {
-                _controler = AstFactory.BuildNullNode();
+                _controler = new List<AssociativeNode>(1) {AstFactory.BuildNullNode()};
             }
 
             return new[]
             {
 
                 AstFactory.BuildAssignment( GetAstIdentifierForOutputIndex(0), _programData),
-                AstFactory.BuildAssignment( GetAstIdentifierForOutputIndex(1), _controler)
+                AstFactory.BuildAssignment( GetAstIdentifierForOutputIndex(1), AstFactory.BuildExprList(_controler))
             };
         }
 
@@ -364,8 +348,6 @@ namespace Dynamo_TORO
         {
             return true;
         }
-
-
 
         internal void GetExistingRapidFileBtnClicked(object obj)
         {

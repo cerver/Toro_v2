@@ -745,49 +745,60 @@ namespace Dynamo_TORO
         //////////////////////////////////////////////////////////////////////////
 
         /// <summary>
-        /// Create a linear movement instruction.
+        /// Create a movement instruction.
         /// </summary>
-        /// <param name="moveType">0= moveL , 1= moveJ, 2= MoveC</param>
+        /// <param name="moveType">0= moveL , 1= moveJ, 2= MoveC, 3= MoveLDO</param>
         /// <param name="targets">Robot target</param>
         /// <param name="speed">Speed data (rounds to default in RobotStudio)</param>
         /// <param name="zone">Zone data (rounds to default in RobotStudio)</param>
+        /// <param name="DOnames">if using a MoveDO command sets the DO val  , true=1</param>
+        /// <param name="DOvals">if using a MoveDO command sets the DO val  , true=1</param>
         /// <param name="setName">Unique name for this instruction</param>
         /// <param name="toolName">Active tool</param>
         /// <param name="wobjName">Active work-object</param>
         /// <param name="defautSpeeds">If true it will round the speed values to robot studio default values</param>
         /// <returns></returns>
         [MultiReturn(new[] { "cnstList", "instList" })]
-        public static Dictionary<string, List<string>> MoveCommand([DefaultArgumentAttribute("0")]int moveType ,List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<double> speed, [DefaultArgumentAttribute("{0}")] List<double> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defautSpeeds = false)
+        public static Dictionary<string, List<string>> MoveCommand(
+            [DefaultArgumentAttribute("{0}")]List<int> moveType ,
+            List<RobTarget> targets, 
+            [DefaultArgumentAttribute("{100}")] List<double> speed, 
+            [DefaultArgumentAttribute("{0}")] List<int> zone,
+            [DefaultArgumentAttribute("{DO10_1}")] List<string> DOnames,
+            [DefaultArgumentAttribute("{0}")] List<int> DOvals,
+            string setName = "set0", 
+            string toolName = "tool0", 
+            string wobjName = "wobj0", 
+            bool defautSpeeds = true)
+            
         {
             // setup
             List<string> cnstList = new List<string>();
             List<string> instList = new List<string>();
 
+            bool isDOmove = false;
+
             string moveInst = "";
-            switch (moveType)
+
+            if (moveType.Count != targets.Count && moveType.Count != 1)
             {
-                case 0:
-                    moveInst = "MoveL";
-                    break;
-                case 1:
-                    moveInst = "MoveJ";
-                    break;
-                case 2:
-                    moveInst = "MoveC";
-                    break;
-
-                default:
-                    moveInst = "MoveL";
-                    break;
+                throw new Exception("The moveType count must match the target count or only contain 1 number");
             }
-
             if (speed.Count != targets.Count && speed.Count != 1)
             {
-                throw new Exception("The speed count must match the target cout or only contain 1 number");
+                throw new Exception("The speed count must match the target count or only contain 1 number");
             }
             if (zone.Count != targets.Count && zone.Count != 1)
             {
-                throw new Exception("The zone count must match the target cout or only contain 1 number");
+                throw new Exception("The zone count must match the target count or only contain 1 number");
+            }
+            if (zone.Count != DOvals.Count && DOvals.Count != 1 && isDOmove)
+            {
+                throw new Exception("The DO Values count must match the target count or only contain 1 number");
+            }
+            if (zone.Count != DOnames.Count && DOnames.Count != 1 && isDOmove)
+            {
+                throw new Exception("The DO Names count must match the target count or only contain 1 name");
             }
 
 
@@ -800,18 +811,49 @@ namespace Dynamo_TORO
                     m_speed = Enumerable.Repeat(speed[0], targets.Count).ToList();
             }
 
-            List<double> m_zone = new List<double>(targets.Count);
+            
+            List<string> m_zone = new List<string>(targets.Count);
             if (zone.Count == 1)
             {
-                m_zone = Enumerable.Repeat((double)RobotUtils.closestZone(zone[0]), targets.Count).ToList();
+                m_zone = Enumerable.Repeat(RobotUtils.closestZone(zone[0]), targets.Count).ToList();
 
+            }
+
+            List<int> m_MoveType = new List<int>(targets.Count);
+            if (moveType.Count == 1)
+            {
+                m_MoveType = Enumerable.Repeat(moveType[0],targets.Count).ToList();
             }
 
             for (int i = 0; i < targets.Count; i++)
             {
+                switch (m_MoveType[i])
+                {
+                    case 0:
+                        moveInst = "MoveL";
+                        break;
+                    case 1:
+                        moveInst = "MoveJ";
+                        break;
+                    case 2:
+                        moveInst = "MoveC";
+                        break;
+                    case 3:
+                        moveInst = "MoveLDO";
+                        isDOmove = true;
+                        break;
+
+                    default:
+                        moveInst = "MoveL";
+                        break;
+                }
 
                 cnstList.Add(string.Format("CONST robtarget {0}{1}:={2};", setName, i, targets[i]));
-                instList.Add(string.Format("{6} {0}{1},v{2},z{3},{4}\\WObj:={5};", setName, i, m_speed[i], m_zone[i], toolName, wobjName, moveInst));
+                if(isDOmove)
+                    instList.Add(string.Format("{6} {0}{1},v{2},{3},{4}\\WObj:={5} ,{7}, {8};", setName, i, m_speed[i], m_zone[i], toolName, wobjName, moveInst, DOnames[i], DOvals[i]));
+                else
+                    instList.Add(string.Format("{6} {0}{1},v{2},{3},{4}\\WObj:={5};", setName, i, m_speed[i], m_zone[i], toolName, wobjName, moveInst));
+                
             }
 
             //end step
@@ -823,7 +865,7 @@ namespace Dynamo_TORO
         }
 
 
-
+        /*
         /// <summary>
         /// Create a linear movement instruction.
         /// </summary>
@@ -836,7 +878,7 @@ namespace Dynamo_TORO
         /// <param name="defautSpeeds">If true it will round the speed values to robot studio default values</param>
         /// <returns></returns>
         [MultiReturn(new[] { "cnstList", "instList" })]
-        public static Dictionary<string, List<string>> MoveL(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<double> speed, [DefaultArgumentAttribute("{0}")] List<double> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defautSpeeds = false)
+        public static Dictionary<string, List<string>> MoveL(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<double> speed, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defautSpeeds = false)
         {
             // setup
             List<string> cnstList = new List<string>();
@@ -861,10 +903,10 @@ namespace Dynamo_TORO
                     m_speed = Enumerable.Repeat(speed[0], targets.Count).ToList();
             }
 
-            List<double> m_zone = new List<double>(targets.Count);
+            List<string> m_zone = new List<string>(targets.Count);
             if (zone.Count == 1)
             { 
-                    m_zone = Enumerable.Repeat((double)RobotUtils.closestZone(zone[0]), targets.Count).ToList();
+                    m_zone = Enumerable.Repeat(RobotUtils.closestZone(zone[0]), targets.Count).ToList();
              
             }
 
@@ -894,7 +936,7 @@ namespace Dynamo_TORO
         /// <param name="wobjName">Active work-object</param>
         /// <returns></returns>
         [MultiReturn(new[] { "cnstList", "instList" })]
-        public static Dictionary<string, List<string>> MoveJ(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<object> speed, [DefaultArgumentAttribute("{0}")] List<object> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0")
+        public static Dictionary<string, List<string>> MoveJ(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<object> speed, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0")
         {
             // setup
             List<string> cnstList = new List<string>();
@@ -917,7 +959,7 @@ namespace Dynamo_TORO
                 }
                 if (zone[cnt] is int || zone[cnt] is double)
                 {
-                    zone[cnt] = RobotUtils.closestZone(Convert.ToDouble(zone[cnt]));
+                    zone[cnt] = RobotUtils.closestZone(zone[cnt]);
                     zone[cnt] = string.Format("z{0}", zone[cnt]);
                 }
 
@@ -1046,7 +1088,7 @@ namespace Dynamo_TORO
                 {"instList", instList},
                 };
         }
-
+        */
 
         /// <summary>
         /// Create custom instruction from string.
@@ -2837,6 +2879,38 @@ namespace Dynamo_TORO
                 }
 
                 
+            }
+
+            return startResult.ToString();
+        }
+
+        /// <summary>
+        /// Set current program pointer on controller.
+        /// </summary>
+        /// <param name="run">True to run</param>
+        /// <param name="controllerData">Controller data</param>
+        /// <param name="value"></param>
+        public static string TestTarget(bool run, string[] controllerData)
+        {
+            StartResult startResult = StartResult.Ok;
+            if (run == true)
+            {
+                Guid systemId = new Guid(controllerData[1]);
+                Controller controller = new Controller(systemId);
+                controller.Logon(UserInfo.DefaultUser);
+              //  var jointT =  controller.Rapid.GetRapidData("T_ROB1", "USER", "jointpos1");
+
+                
+
+                Task newTask = controller.Rapid.GetTask("T_ROB1");
+                using (Mastership.Request(controller.Rapid))
+                {
+                    //var jointT = newTask.GetRapidData()
+                   
+
+                }
+
+
             }
 
             return startResult.ToString();
