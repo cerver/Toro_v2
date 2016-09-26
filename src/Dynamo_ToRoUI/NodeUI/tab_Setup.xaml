@@ -27,8 +27,8 @@
 
         </GroupBox>
         <ListBox x:Name="controlerListView" SelectionChanged="controlerListView_SelectionChanged" SelectedIndex="{Binding SelectedCtrlIndex}" HorizontalAlignment="Left" Height="63" Margin="65,53,0,0" VerticalAlignment="Top" Width="209"/>
-        <GroupBox x:Name="groupBox1" Header="RAPID File" HorizontalAlignment="Left" Margin="10,128,0,0" VerticalAlignment="Top" Height="71" Width="471">
-            <Label x:Name="TxRapidFileLoc" Content="&lt;---Create or Open a RAPID File" HorizontalAlignment="Left" Height="27" Margin="98,20,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.55,0.216" Width="354" FontSize="10"/>
+        <GroupBox x:Name="groupBox1" Header="RAPID File" HorizontalAlignment="Left" Margin="10,128,0,0" VerticalAlignment="Top" Height="104" Width="471">
+            <TextBox x:Name="TxRapidFileLoc"  HorizontalAlignment="Left" Height="51" Margin="101,20,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.55,0.216" Width="351" FontSize="10" Text="&lt;---Create or Open a RAPID File" TextWrapping="Wrap"/>
         </GroupBox>
         <Button x:Name="btNewPrfFile" Style="{DynamicResource imgButton}"  Command="{Binding BtMakeNewRapidFile}"  HorizontalAlignment="Left" Margin="22,150,0,0" VerticalAlignment="Top" Width="40" Height="40"  Panel.ZIndex="10" BorderThickness="1" BorderBrush="{x:Null}">
             <Button.Background>

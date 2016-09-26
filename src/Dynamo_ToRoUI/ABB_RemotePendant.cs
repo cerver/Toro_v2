@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using WinForm = System.Windows.Forms;
 using System.Xml;
@@ -24,7 +25,7 @@ using Microsoft.Win32;
 using String = System.String;
 using Task = ABB.Robotics.Controllers.RapidDomain.Task;
 
-
+//created by Robert Cervellione
 namespace Dynamo_TORO
 {
     [NodeName("ABB_RemotePendant")]
@@ -366,7 +367,7 @@ namespace Dynamo_TORO
                     {
                         GetFileDataAndPopulatePanel(true);
                         CustomUi.ProgramPanel.TbFileLoc.Text = _ModFileLoc;
-                        CustomUi.SetupPanel.TxRapidFileLoc.Content = _ModFileLoc;
+                        CustomUi.SetupPanel.TxRapidFileLoc.Text = _ModFileLoc;
                     }
                     else
                     {
@@ -385,13 +386,23 @@ namespace Dynamo_TORO
         internal void MakeNewRapidFileBtnClicked(object obj)
         {
             WinForm.FolderBrowserDialog fbDialog = new WinForm.FolderBrowserDialog();
-            fbDialog.Description = "Select a folder where the new Rapid files will be placed";
+            fbDialog.Description = @"Select a folder where the new RAPID files will be placed";
 
             if (fbDialog.ShowDialog() == WinForm.DialogResult.OK)
             {
                 try
                 {
-                    string currentDir = fbDialog.SelectedPath + @"\T_ROB1";
+                    string currentDir = fbDialog.SelectedPath;
+                    if (File.Exists(currentDir + @"\MainModule.mod") && File.Exists(currentDir + @"\T_ROB1.pgf"))
+                    {
+                        var messageResult = MessageBox.Show("RAPID files exist in the directory you have chosen. Do you want to overwrite them?",
+                            "Warning Files Exist", MessageBoxButton.YesNo);
+                        if (messageResult != MessageBoxResult.Yes)
+                        {
+                            return;
+                        }
+                    }
+
                     Directory.CreateDirectory(currentDir);
                     string newModFile = currentDir + @"\MainModule.mod";
                     File.WriteAllText(newModFile, "");
@@ -402,7 +413,7 @@ namespace Dynamo_TORO
 
                     GetFileDataAndPopulatePanel(true);
                     CustomUi.ProgramPanel.TbFileLoc.Text = _ModFileLoc;
-                    CustomUi.SetupPanel.TxRapidFileLoc.Content = _ModFileLoc;
+                    CustomUi.SetupPanel.TxRapidFileLoc.Text = _ModFileLoc;
 
                     
 
@@ -543,7 +554,7 @@ namespace Dynamo_TORO
                     if (CustomUi.ProgramPanel.ProgramList.IsInitialized)
                         CustomUi.ProgramPanel.ProgramList.Items.Clear();
                     CustomUi.ProgramPanel.TbFileLoc.Text = _ModFileLoc;
-                    CustomUi.SetupPanel.TxRapidFileLoc.Content = _ModFileLoc;
+                    CustomUi.SetupPanel.TxRapidFileLoc.Text = _ModFileLoc;
 
                     for (int i = 0; i < _fileContents.Length; i++)
                     {

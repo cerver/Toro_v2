@@ -49,9 +49,9 @@ D:\GoogleDrive\Code\TORO\src\Dynamo ToRo\bin\Debug\fr\RobotStudio.Resources.reso
 D:\GoogleDrive\Code\TORO\src\Dynamo ToRo\bin\Debug\it\RobotStudio.Resources.resources.dll
 D:\GoogleDrive\Code\TORO\src\Dynamo ToRo\bin\Debug\ja\RobotStudio.Resources.resources.dll
 D:\GoogleDrive\Code\TORO\src\Dynamo ToRo\bin\Debug\zh-CN\RobotStudio.Resources.resources.dll
+D:\GoogleDrive\Code\Toro_v2\src\Dynamo ToRo\bin\Debug\DYNAMO_TORO.pdb
 D:\GoogleDrive\Code\Toro_v2\src\Dynamo ToRo\bin\Debug\DYNAMO_TORO.XML
 D:\GoogleDrive\Code\Toro_v2\src\Dynamo ToRo\bin\Debug\DYNAMO_TORO.dll
-D:\GoogleDrive\Code\Toro_v2\src\Dynamo ToRo\bin\Debug\DYNAMO_TORO.pdb
 D:\GoogleDrive\Code\Toro_v2\src\Dynamo ToRo\bin\Debug\ABB.Robotics.Controllers.PC.dll
 D:\GoogleDrive\Code\Toro_v2\src\Dynamo ToRo\bin\Debug\ABB.Robotics.Math.dll
 D:\GoogleDrive\Code\Toro_v2\src\Dynamo ToRo\bin\Debug\RobotStudio.Services.RobApi.Desktop.dll
