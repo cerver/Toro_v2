@@ -1,4 +1,4 @@
-<Workspace Version="1.1.0.2094" X="-2103.94375839493" Y="40.9029689093109" zoom="0.738310501082045" Name="Home" Description="" RunType="Automatic" RunPeriod="1000" HasRunWithoutCrash="True">
+<Workspace Version="1.1.0.2094" X="-1084.75358062749" Y="257.015473518639" zoom="0.544659804495589" Name="Home" Description="" RunType="Automatic" RunPeriod="1000" HasRunWithoutCrash="True">
   <NamespaceResolutionMap>
     <ClassMap partialName="Vector" resolvedName="Autodesk.DesignScript.Geometry.Vector" assemblyName="ProtoGeometry.dll" />
     <ClassMap partialName="Point" resolvedName="Autodesk.DesignScript.Geometry.Point" assemblyName="ProtoGeometry.dll" />
@@ -64,7 +64,7 @@
     <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="d4525473-04f9-4b01-9b3d-e07dc37df8b1" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Flatten" x="3929.99933109065" y="-323.047329845942" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" isPinned="false" assembly="BuiltIn" function="Flatten@var[]..[]" />
     <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="e78ca25d-ba2b-46f9-a194-0603015b8ad5" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="2955.9621143799" y="-304.580290882333" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="&quot;DO10_1&quot;;&#xA;1;&#xA;0;" ShouldFocus="false" />
     <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="e7acdc53-16f5-40d0-9a91-d73cfd454109" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="2985.07414509296" y="-49.7695398980247" isVisible="false" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" CodeText="150;&#xA;&quot;MyTool&quot;;&#xA;&quot;WObj1&quot;;" ShouldFocus="false" />
-    <PythonNodeModels.PythonNode guid="47dd5770-dd72-4be9-82a7-3889945a61df" type="PythonNodeModels.PythonNode" nickname="Python Script" x="2558.35335844594" y="-326.818643289257" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
+    <PythonNodeModels.PythonNode guid="47dd5770-dd72-4be9-82a7-3889945a61df" type="PythonNodeModels.PythonNode" nickname="Python Script" x="2559.21365183951" y="-355.208325277073" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" isPinned="false" inputcount="2">
       <Script>import clr
 clr.AddReference('ProtoGeometry')
 from Autodesk.DesignScript.Geometry import *
@@ -208,7 +208,7 @@ OUT = strComb</Script>
     <Dynamo.Graph.Annotations.AnnotationModel guid="885ef79a-5fbe-4f62-9776-901e0ad3177e" annotationText="&lt;Click here to edit the group title&gt;" left="-863.538827566303" top="-333.541360933508" width="601.333333333333" height="149.666666666667" fontSize="14" InitialTop="-303.541360933508" InitialHeight="560.069701991534" TextblockHeight="20" backgrouund="#FFC1D676">
       <Models ModelGuid="645641aa-34ec-49ed-ba14-38aa46ed7131" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="e0789efd-f97e-4272-af09-a86c0b1c91ec" annotationText="tool and work objects&#xD;&#xA;" left="3521.94530286066" top="409.057525565194" width="658.084187668847" height="418.423803709309" fontSize="14" InitialTop="452.390858898528" InitialHeight="405.090470375975" TextblockHeight="33.3333333333333" backgrouund="#FFC1D676">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="e0789efd-f97e-4272-af09-a86c0b1c91ec" annotationText="tool and work objects&#xD;&#xA;" left="3521.94530286066" top="409.057525565195" width="658.084187668847" height="418.423803709309" fontSize="14" InitialTop="452.390858898528" InitialHeight="405.090470375975" TextblockHeight="33.3333333333333" backgrouund="#FFC1D676">
       <Models ModelGuid="8a40161f-4866-4765-a2cb-2f726ba3c720" />
       <Models ModelGuid="d3744283-faa7-4d9e-ab4b-576bbf437ebb" />
       <Models ModelGuid="6ecd312a-8bc8-4a92-ae47-8ceaf764cf8d" />
@@ -226,7 +226,7 @@ OUT = strComb</Script>
       <Models ModelGuid="2e11c697-e5bd-4bdc-9f88-5c76245babf4" />
       <Models ModelGuid="0f3875ee-3d6b-4dc7-b238-f5813b4b8608" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="c480eee6-72be-40d4-a17d-e1f0f400d38f" annotationText="this adds a unique name for each target" left="2419.50758605335" top="-356.818643289257" width="276.762387144637" height="593.065239980482" fontSize="14" InitialTop="-326.818643289257" InitialHeight="656.781131877008" TextblockHeight="20" backgrouund="#FFC1D676">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="c480eee6-72be-40d4-a17d-e1f0f400d38f" annotationText="this adds a unique name for each target" left="2419.50758605335" top="-385.208325277073" width="276.762387144633" height="621.454921968298" fontSize="14" InitialTop="-355.208325277073" InitialHeight="656.781131877008" TextblockHeight="20" backgrouund="#FFC1D676">
       <Models ModelGuid="47dd5770-dd72-4be9-82a7-3889945a61df" />
       <Models ModelGuid="31c0f611-ebdd-4e19-81ac-c1082ad718fe" />
       <Models ModelGuid="4da9372e-3078-4335-b28f-c71842ac566f" />
@@ -242,7 +242,7 @@ OUT = strComb</Script>
       <Models ModelGuid="e7acdc53-16f5-40d0-9a91-d73cfd454109" />
       <Models ModelGuid="726f0f8f-21f7-4b34-9407-6530042ddb1f" />
     </Dynamo.Graph.Annotations.AnnotationModel>
-    <Dynamo.Graph.Annotations.AnnotationModel guid="e9836ecb-3268-4a7f-9244-1a5cce2b6445" annotationText="create targets and split  into 3 lists" left="1725.6508622593" top="-254.19201791118" width="379.95501905155" height="175" fontSize="14" InitialTop="-224.19201791118" InitialHeight="175" TextblockHeight="20" backgrouund="#FFC1D676">
+    <Dynamo.Graph.Annotations.AnnotationModel guid="e9836ecb-3268-4a7f-9244-1a5cce2b6445" annotationText="create targets and split  into 3 lists" left="1725.6508622593" top="-254.19201791118" width="379.955019051553" height="175" fontSize="14" InitialTop="-224.19201791118" InitialHeight="175" TextblockHeight="20" backgrouund="#FFC1D676">
       <Models ModelGuid="5ee53201-b03e-4187-bb20-f7dc4ce59aec" />
       <Models ModelGuid="d429351e-d9fb-4969-abe3-81448289c33a" />
     </Dynamo.Graph.Annotations.AnnotationModel>
@@ -260,6 +260,6 @@ OUT = strComb</Script>
   </Annotations>
   <Presets />
   <Cameras>
-    <Camera Name="Background Preview" eyeX="-981.200075008381" eyeY="896.502232174479" eyeZ="212.270148049471" lookX="486.811440803516" lookY="-681.541483025156" lookZ="-927.657305489656" upX="0.163998961448669" upY="0.935649514198303" upZ="-0.312512844800949" />
+    <Camera Name="Background Preview" eyeX="-981.200073242188" eyeY="896.502258300781" eyeZ="212.270141601563" lookX="486.811431884766" lookY="-681.54150390625" lookZ="-927.657287597656" upX="0.163998961448669" upY="0.935649514198303" upZ="-0.312512844800949" />
   </Cameras>
 </Workspace>

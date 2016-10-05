@@ -11,14 +11,15 @@ using ABB.Robotics.Controllers;
 using ABB.Robotics.Controllers.Discovery;
 using ABB.Robotics.Controllers.RapidDomain;
 using ABB.Robotics.Controllers.MotionDomain;
-using ABB.Robotics.Math;
-using Adapters;
+//using ABBMath = ABB.Robotics.Math;
+//using ABB.Robotics.RobotStudio;
+//using ABB.Robotics.RobotStudio.Stations;
+//using Adapters;
 using Autodesk.DesignScript.Geometry;
 using Autodesk.DesignScript.Runtime;
-using Controller = ABB.Robotics.Controllers.Controller;
-using Module = ABB.Robotics.Controllers.RapidDomain.Module;
-using Plane = Autodesk.DesignScript.Geometry.Plane;
-using Task = ABB.Robotics.Controllers.RapidDomain.Task;
+
+using ABBMesh = Autodesk.DesignScript.Geometry.Mesh;
+
 
 //using Dynamo_TORO.SimFunctions;
 
@@ -105,24 +106,23 @@ namespace Dynamo_TORO
         //////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////
-
         /*
-                public static bool CreateTool(string[] controllerData, string ToolName, Mesh ToolGeom, Plane AttachmentPl, Plane ToolTip)
+                public static bool CreateTool(string[] controllerData, string ToolName, ABBMesh ToolGeom, Plane AttachmentPl, Plane ToolTip)
                 {
 
 
-
-                    Station station = Project.ActiveProject as RSS.Station;
-                    RSS.RsTask task = station.ActiveTask;
-
-                    // create sample geometry
+         
+                    Station station = Project.ActiveProject as Station;
+                    RsTask task = station.ActiveTask;
+            
+            // create sample geometry
                     Part part = new Part();
-                    RSS.MeshBody tool = ToroHelpFunc.MeshToMeshBody(ToolGeom);
+                    MeshBody tool = ToroHelpFunc.MeshToMeshBody(ToolGeom);
                     part.Bodies.Add(tool.Body);
                     part.Name = ToolName + "_Mesh";
 
                     // create new tool
-                    RSS.MechanismBuilder b = new RSS.MechanismBuilder(RSS.MechanismType.Tool);
+                    MechanismBuilder b = new MechanismBuilder(MechanismType.Tool);
                     b.Name = ToolName;
                     b.ModelName = ToolName+"_Model";
 
@@ -130,15 +130,15 @@ namespace Dynamo_TORO
                     b.AddLink(link, part);
                     b.BaseLink = link;
 
-                    Matrix4 offset = Matrix4.Identity;
+                ABBMath.Matrix4 offset = ABBMath.Matrix4.Identity;
                     offset.TranslateLocal(ToolTip.Origin.X, ToolTip.Origin.Y, ToolTip.Origin.Z);
                     // ...
                     List<double> atQuat = Utilities.QuatListAtPlane(AttachmentPl);
-                    b.SetLoadData(1.0,new Vector3(AttachmentPl.Origin.X, AttachmentPl.Origin.Y, AttachmentPl.Origin.Z),new Quaternion(atQuat[0], atQuat[1], atQuat[2],atQuat[3]),new Vector3(AttachmentPl.Normal.X, AttachmentPl.Normal.Y, AttachmentPl.Normal.Z)  );
+                    b.SetLoadData(1.0,new ABBMath.Vector3(AttachmentPl.Origin.X, AttachmentPl.Origin.Y, AttachmentPl.Origin.Z),new ABBMath.Quaternion(atQuat[0], atQuat[1], atQuat[2],atQuat[3]),new ABBMath.Vector3(AttachmentPl.Normal.X, AttachmentPl.Normal.Y, AttachmentPl.Normal.Z)  );
                     // assign gravity, offset, ...
                     b.AddToolData(ToolName+"_Data", link, offset);
 
-                    RSS.Mechanism mechTool = b.CompileMechanism();
+                    Mechanism mechTool = b.CompileMechanism();
                     mechTool.Name = ToolName+"_Mech";
 
                     station.GraphicComponents.Add(mechTool);
@@ -149,8 +149,7 @@ namespace Dynamo_TORO
 
                     return true;
                 }
-        */
-
+*/
         /// <summary>
         /// Create Tool
         /// </summary>
@@ -204,10 +203,7 @@ namespace Dynamo_TORO
             var target = new RobTarget();
             if (point != null)
             {
-                target.FillFromString2(
-                    string.Format(
-                        "[[{0},{1},{2}],[{3},{4},{5},{6}],[0,0,0,0],[9.999999999E09,9.999999999E09,9.999999999E09,9.999999999E09,9.999999999E09,9.999999999E09]];",
-                        point.X, point.Y, point.Z, q1, q2, q3, q4));
+                target.FillFromString2( $"[[{point.X},{point.Y},{point.Z}],[{q1},{q2},{q3},{q4}],[0,0,0,0],[9.999999999E09,9.999999999E09,9.999999999E09,9.999999999E09,9.999999999E09,9.999999999E09]];" );
             }
             return target;
         }
@@ -228,9 +224,6 @@ namespace Dynamo_TORO
             return target;
         }
 
-
-      
-
         /// <summary>
         /// Create joint target from rotational values per axis.
         /// </summary>
@@ -249,9 +242,7 @@ namespace Dynamo_TORO
                 j1, j2, j3, j4, j5, j6));
             return target;
         }
-
-
-
+    
         /// <summary>
         /// Define speeddata.
         /// </summary>
@@ -841,7 +832,7 @@ namespace Dynamo_TORO
             List<string> cnstList = new List<string>();
             List<string> instList = new List<string>();
 
-            UtilFuncs.MoveCommand(UtilFuncs.MoveType., targets, speed, zone, null, null, setName, toolName, wobjName, defaultSpeeds, out cnstList, out instList);
+            UtilFuncs.MoveCommand(UtilFuncs.MoveType.MoveAbsJ, targets, speed, zone, null, null, setName, toolName, wobjName, defaultSpeeds, out cnstList, out instList);
 
 
             // end step
@@ -864,7 +855,7 @@ namespace Dynamo_TORO
         /// <param name="wobjName">Active work-object</param>
         /// <returns></returns>
         [MultiReturn(new[] { "cnstList", "instList" })]
-        public static Dictionary<string, List<string>> MoveC(List<RobTarget> cirTarget, List<RobTarget> toTarget, [DefaultArgumentAttribute("{100}")] List<object> speed, [DefaultArgumentAttribute("{0}")] List<object> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0")
+        public static Dictionary<string, List<string>> MoveC(List<RobTarget> cirTarget, List<RobTarget> toTarget, [DefaultArgumentAttribute("{100}")] List<int> speed, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0")
         {
             // setup
             List<string> cnstList = new List<string>();
@@ -873,6 +864,9 @@ namespace Dynamo_TORO
 
             // target instructions
             cnt = 0;
+
+            string zn;
+            int spd;
             foreach (var target in toTarget)
             {
                 if (cnt < toTarget.Count)
@@ -880,19 +874,12 @@ namespace Dynamo_TORO
                     if (cnt == speed.Count) { speed.Add(speed[0]); }
                     if (cnt == zone.Count) { zone.Add(zone[0]); }
                 }
-                if (speed[cnt] is int || speed[cnt] is double)
-                {
-                    speed[cnt] = RobotUtils.closestSpeed(Convert.ToDouble(speed[cnt]));
-                    speed[cnt] = string.Format("v{0}", speed[cnt]);
-                }
-                if (zone[cnt] is int || zone[cnt] is double)
-                {
-                    zone[cnt] = RobotUtils.closestZone(Convert.ToDouble(zone[cnt]));
-                    zone[cnt] = string.Format("z{0}", zone[cnt]);
-                }
+                    spd = RobotUtils.closestSpeed(speed[cnt]);
+                    zn = RobotUtils.closestZone(zone[cnt]);
+  
 
                 cnstList.Add( $"CONST robtarget cir{setName}{cnt}:={cirTarget[cnt]}; CONST robtarget to{setName}{cnt}:={target};") ;
-                instList.Add($"MoveC cir{setName}{cnt}, to{setName}{cnt}, {speed[cnt]},{zone[cnt]},{toolName}\\WObj:={wobjName};");
+                instList.Add($"MoveC cir{setName}{cnt}, to{setName}{cnt}, v{spd},{zn},{toolName}\\WObj:={wobjName};");
 
                 cnt++;
             }
@@ -2541,15 +2528,16 @@ namespace Dynamo_TORO
                 {"jointTargets", jTargets }
             };
         }
-
-        /// <summary>
-        /// Read tooldata and wobjdata for MainModule on controller.
-        /// </summary>
-        /// <param name="run">True to run</param>
-        /// <param name="controllerData">Controller data</param>
-        /// <param name="moduleName">Module name: MainModule | BASE | user (case sensitive)</param>
-        /// <returns></returns>
-        [MultiReturn(new[] { "programData" /*, "currentData"*/ })]
+        /*
+       /// <summary>
+       /// Read tooldata and wobjdata for MainModule on controller.
+       /// </summary>
+       /// <param name="run">True to run</param>
+       /// <param name="controllerData">Controller data</param>
+       /// <param name="moduleName">Module name: MainModule | BASE | user (case sensitive)</param>
+       /// <returns></returns>
+       [MultiReturn(new[] { "programData" , "currentData"}]
+    })]
         public static Dictionary<string, List<string[]>> getProgramData(bool run, string[] controllerData, string moduleName)
         {
             List<string[]> progData = new List<string[]> { };
@@ -2585,7 +2573,7 @@ namespace Dynamo_TORO
 
                     }
 
-                    /*
+                 
                     RapidSymbol[] currDatas = newTask.GetModule("MainModule").SearchRapidSymbol(sProp);
                     foreach (RapidSymbol rs in currDatas)
                     {
@@ -2601,16 +2589,18 @@ namespace Dynamo_TORO
                             currData.Add(eachCurr);
                         }
                     }
-                    */
+                 
 
                 }
             }
 
             return new Dictionary<string, List<string[]>>
             {
-                {"programData", progData } /*,{"currentData", currData}*/
+                {"programData", progData },{"currentData", currData}
             };
         }
+
+        */
 
         /// <summary>
         /// Read RobTarget and JointTarget from current position.
@@ -2960,16 +2950,16 @@ namespace Dynamo_TORO
         }
 
 
-        /*
-        internal static RSS.MeshBody MeshToMeshBody(Mesh DMesh)
+     /*
+        internal static MeshBody MeshToMeshBody(Mesh DMesh)
         {
             
-            List<RSS.MeshFace> faces = new List<RSS.MeshFace>(DMesh.FaceIndices.Length);
-            List<Vector3> verts;
+            List<MeshFace> faces = new List<MeshFace>(DMesh.FaceIndices.Length);
+            List<ABBMath.Vector3> verts;
             foreach (var fi in DMesh.FaceIndices)
             {
-                var face = new RSS.MeshFace();
-                verts = new List<Vector3>((int)fi.Count);
+                var face = new MeshFace();
+                verts = new List<ABBMath.Vector3>((int)fi.Count);
                 if (fi.Count == 3)
                 {
                     face.WireIndices.AddRange(new List<int>(3) {(int) fi.A, (int) fi.B, (int) fi.C});
@@ -3008,7 +2998,7 @@ namespace Dynamo_TORO
             return new RSS.MeshBody(faces);
             
         }
-        */
+      */
     }
 
 }

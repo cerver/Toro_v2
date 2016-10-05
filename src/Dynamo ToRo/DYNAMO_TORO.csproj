@@ -38,31 +38,75 @@
     </Reference>
     <Reference Include="ABB.Robotics.Math, Version=6.3.7016.2009, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\RSSDK\ABB.Robotics.Math.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\SDK\RobotStudio SDK 6.03\ABB.Robotics.Math.dll</HintPath>
     </Reference>
-    <Reference Include="DynamoCore, Version=1.1.0.2094, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Dynamo\Dynamo Core\1.1\DynamoCore.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="ABB.Robotics.RobotStudio">
+      <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\RobotStudio 6.03\Bin64\ABB.Robotics.RobotStudio.dll</HintPath>
     </Reference>
-    <Reference Include="DynamoCoreWpf, Version=1.1.0.2094, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Dynamo\Dynamo Core\1.1\DynamoCoreWpf.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="ABB.Robotics.RobotStudio.Stations">
+      <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\RobotStudio 6.03\Bin64\ABB.Robotics.RobotStudio.Stations.dll</HintPath>
     </Reference>
-    <Reference Include="DynamoServices, Version=1.1.0.2094, Culture=neutral, processorArchitecture=MSIL">
-      <Private>False</Private>
+    <Reference Include="CoreNodeModels, Version=1.2.0.2690, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.WpfUILibrary.1.2.0\lib\net45\CoreNodeModels.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CoreNodeModelsWpf, Version=1.2.0.2690, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.WpfUILibrary.1.2.0\lib\net45\CoreNodeModelsWpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DynamoCore, Version=1.2.0.2690, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.1.2.0\lib\net45\DynamoCore.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DynamoCoreWpf, Version=1.2.0.2690, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.WpfUILibrary.1.2.0\lib\net45\DynamoCoreWpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DynamoServices, Version=1.2.0.2690, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.DynamoServices.1.2.0\lib\net45\DynamoServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DynamoShapeManager, Version=1.2.0.2690, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.1.2.0\lib\net45\DynamoShapeManager.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DynamoUnits, Version=1.2.0.2690, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.ZeroTouchLibrary.1.2.0\lib\net45\DynamoUnits.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DynamoUtilities, Version=1.2.0.2690, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.1.2.0\lib\net45\DynamoUtilities.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\Microsoft.Expression.Interactions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\Microsoft.Practices.Prism.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.Interactivity, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="ProtoCore, Version=1.1.0.2094, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Dynamo\Dynamo Core\1.1\ProtoCore.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="ProtoCore, Version=1.2.0.2690, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.Core.1.2.0\lib\net45\ProtoCore.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="ProtoGeometry">
-      <HintPath>..\..\..\..\..\..\Program Files\Autodesk\Dynamo Studio 2016\ProtoGeometry.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="ProtoGeometry, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamoVisualProgramming.ZeroTouchLibrary.1.2.0\lib\net45\ProtoGeometry.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="RobotStudio.Services.RobApi">
       <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\SDK\PCSDK 6.03\RobotStudio.Services.RobApi.dll</HintPath>
@@ -72,6 +116,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.4.1.0.0\lib\NET40\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -82,6 +130,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="SimulationFunction.cs" />
     <Compile Include="WIP_ROBARCH.cs" />
     <Compile Include="WIP_WELDING.cs" />
@@ -107,6 +156,6 @@
     <Copy SourceFiles="@(PackageFiles)" DestinationFolder="$(SolutionDir)..\dynamo_package\DynamoToro\bin\" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetPath)"  "C:\Users\cerve\AppData\Roaming\Dynamo\Dynamo Core\1.1\packages\DynamoToro\bin\"  /R /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetPath)"  "C:\Users\cerve\AppData\Roaming\Dynamo\Dynamo Core\1.2\packages\DynamoToro\bin\"  /R /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>
