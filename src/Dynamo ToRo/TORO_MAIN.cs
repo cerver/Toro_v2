@@ -2827,10 +2827,10 @@ namespace Dynamo_TORO
         /// <param name="wobjName">Active work-object</param>
         /// <param name="defautSpeeds">If true it will round the speed values to robot studio default values</param>
         /// <returns></returns>
-        public static void MoveCommand(
+        internal static bool MoveCommand(
             MoveType moveType,
             List<RobTarget> targets,
-            List<int> speed,
+            List<object> speed,
             List<int> zone ,
             List<string> DOnames ,
             List<int> DOvals ,
@@ -2853,6 +2853,7 @@ namespace Dynamo_TORO
             bool isDOmove = false;
             bool isCircMove = false;
             string moveInst = "";
+            bool success = true;
 
             switch (moveType)
             {
@@ -2890,6 +2891,7 @@ namespace Dynamo_TORO
 
 
             //speed
+            /*
             if(speed.Count >1)
                 foreach (var s in speed)
                 {
@@ -2900,8 +2902,30 @@ namespace Dynamo_TORO
             else 
             {
                 if (defautSpeeds) m_speed = Enumerable.Repeat(RobotUtils.closestSpeed(speed[0]), tCt).ToList();
-                else m_speed = Enumerable.Repeat(speed[0], tCt).ToList();
+              
+            else m_speed = Enumerable.Repeat(speed[0], tCt).ToList();
+            }*/
+            int sct = 0;
+            foreach (var s in speed)
+            {
+                if (s is int)
+                {
+                    m_cnstList.Add($"VAR speeddata s_{setName}{sct} := [ {s}, 100, 100, 100 ];");
+                }
+                else if (s is Speed)
+                {
+                    var m_s = s as Speed;
+                    m_cnstList.Add(m_s.SpeedData);
+                }
+                else
+                {
+                    success = false;
+                    break;
+                }
+                
+                sct++;
             }
+
             //zone
             if (m_zone.Count > 1)
                 m_zone.AddRange(zone.Select(z => RobotUtils.closestZone(z)));
@@ -2942,10 +2966,14 @@ namespace Dynamo_TORO
                 }
             }
 
+          
+
             //end step
 
             cnstList = m_cnstList;
             instList = m_instList;
+
+            return success;
 
         }
 
