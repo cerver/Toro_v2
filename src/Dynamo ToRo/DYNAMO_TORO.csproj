@@ -133,6 +133,7 @@
     <None Include="packages.config" />
     <None Include="SimulationFunction.cs" />
     <Compile Include="WIP_ROBARCH.cs" />
+    <Compile Include="TORO_Base.cs" />
     <Compile Include="WIP_WELDING.cs" />
     <Compile Include="TORO_UTILS.cs" />
     <Compile Include="TORO_MAIN.cs" />

@@ -740,7 +740,7 @@ namespace Dynamo_TORO
         /// /// <param name="DoVals"></param>
         /// <returns></returns>
         [MultiReturn(new[] { "cnstList", "instList" })]
-        public static Dictionary<string, List<string>> MoveLDO(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<int> speed, [DefaultArgumentAttribute("{DO10_1}")] List<string> DoNames, [DefaultArgumentAttribute("{0}")] List<int> DoVals, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defaultSpeeds = false)
+        public static Dictionary<string, List<string>> MoveLDO(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<object> speed, [DefaultArgumentAttribute("{DO10_1}")] List<string> DoNames, [DefaultArgumentAttribute("{0}")] List<int> DoVals, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defaultSpeeds = false)
         {
             // setup
             List<string> cnstList = new List<string>();
@@ -771,7 +771,7 @@ namespace Dynamo_TORO
         /// <param name="defautSpeeds">If true it will round the speed values to robot studio default values</param>
         /// <returns></returns>
         [MultiReturn(new[] { "cnstList", "instList" })]
-        public static Dictionary<string, List<string>> MoveL(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<int> speed, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defaultSpeeds = false)
+        public static Dictionary<string, List<string>> MoveL(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<object> speed, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defaultSpeeds = false)
         {
             // setup
             List<string> cnstList = new List<string>();
@@ -799,7 +799,7 @@ namespace Dynamo_TORO
         /// <param name="wobjName">Active work-object</param>
         /// <returns></returns>
         [MultiReturn(new[] { "cnstList", "instList" })]
-        public static Dictionary<string, List<string>> MoveJ(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<int> speed, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defaultSpeeds = true)
+        public static Dictionary<string, List<string>> MoveJ(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<object> speed, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defaultSpeeds = true)
         {
             // setup
             List<string> cnstList = new List<string>();
@@ -826,7 +826,7 @@ namespace Dynamo_TORO
         /// <param name="wobjName">Active work-object</param>
         /// <returns></returns>
         [MultiReturn(new[] { "cnstList", "instList" })]
-        public static Dictionary<string, List<string>> MoveAbsJ(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<int> speed, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defaultSpeeds = true)
+        public static Dictionary<string, List<string>> MoveAbsJ(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<object> speed, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defaultSpeeds = true)
         {
             // setup
             List<string> cnstList = new List<string>();
