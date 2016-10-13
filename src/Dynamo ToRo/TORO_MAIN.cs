@@ -1274,7 +1274,7 @@ namespace Dynamo_TORO
             List<object> lastItm = new List<object>();
 
                 firstItm.Add(list[0]);
-                for (int i = 1; i < list.Count - 2; i++)
+                for (int i = 1; i < list.Count - 1; i++)
                 {
                     middleItms.Add(list[i]);
                 }
@@ -2844,9 +2844,9 @@ namespace Dynamo_TORO
         {
             // setup
             int tCt = targets.Count;
-            List<string> m_cnstList = new List<string>(tCt);
+            List<string> m_cnstList = new List<string>(tCt*2);
             List<string> m_instList = new List<string>(tCt);
-            List<int>m_speed = new List<int>(tCt);
+            List<string>m_speedName = new List<string>(tCt);
             List<string>m_zone = new List<string>(tCt);
             List<string>m_DoName= new List<string>(tCt);
             List<int>m_DoVal = new List<int>(tCt);
@@ -2891,40 +2891,50 @@ namespace Dynamo_TORO
 
 
             //speed
-            /*
-            if(speed.Count >1)
-                foreach (var s in speed)
-                {
 
-                    if (defautSpeeds) m_speed.Add(RobotUtils.closestSpeed(s));
-                    else m_speed.Add(s);
-                }
-            else 
+            if (speed.Count == 1)
             {
-                if (defautSpeeds) m_speed = Enumerable.Repeat(RobotUtils.closestSpeed(speed[0]), tCt).ToList();
-              
-            else m_speed = Enumerable.Repeat(speed[0], tCt).ToList();
-            }*/
-            int sct = 0;
-            foreach (var s in speed)
-            {
-                if (s is int)
+                if (speed[0] is int)
                 {
-                    m_cnstList.Add($"VAR speeddata s_{setName}{sct} := [ {s}, 100, 100, 100 ];");
+                    m_speedName = Enumerable.Repeat($"s_{setName}", tCt).ToList();
+                    m_cnstList.Add($"VAR speeddata s_{setName} := [ {speed[0]}, 100, 100, 100 ];");
                 }
-                else if (s is Speed)
+                else if (speed[0] is Speed)
                 {
-                    var m_s = s as Speed;
+                    var m_s = speed[0] as Speed;
                     m_cnstList.Add(m_s.SpeedData);
                 }
                 else
-                {
                     success = false;
-                    break;
-                }
-                
-                sct++;
             }
+            else
+            {
+                int sct = 0;
+                foreach (var s in speed)
+                {
+                    if (s is int)
+                    {
+                        m_speedName.Add($"s_{setName}{sct}");
+                        m_cnstList.Add($"VAR speeddata v_{setName}{sct} := [ {s}, 100, 100, 100 ];");
+                    }
+                    else if (s is Speed)
+                    {
+                        var m_s = s as Speed;
+                        m_cnstList.Add(m_s.SpeedData);
+                        m_speedName.Add(m_s.v_name);
+                    }
+                    else
+                    {
+                        success = false;
+                        break;
+                    }
+
+                    sct++;
+                }
+            }
+
+
+          
 
             //zone
             if (m_zone.Count > 1)
@@ -2945,7 +2955,7 @@ namespace Dynamo_TORO
                 for (int i = 0; i < tCt; i++)
                 {
                     m_cnstList.Add($"CONST robtarget {setName}{i}:={targets[i]};");
-                    m_instList.Add($"{moveInst} {setName}{i},v{m_speed[i]},{m_zone[i]},{toolName}\\WObj:={wobjName} ,{m_DoName[i]}, {m_DoVal[i]};");
+                    m_instList.Add($"{moveInst} {setName}{i}, {m_speedName[i]}, {m_zone[i]}, {toolName}\\WObj:={wobjName} ,{m_DoName[i]}, {m_DoVal[i]};");
  
                 }
             }
@@ -2954,7 +2964,7 @@ namespace Dynamo_TORO
                 for (int i = 0; i < tCt; i++)
                 {
                     m_cnstList.Add($"CONST robtarget cir{setName}{i}:={targets[i]}; CONST robtarget to{setName}{i}:={targets[i]};");
-                    m_instList.Add($"MoveC cir{setName}{i}, to{setName}{i}, {speed[i]},{zone[i]},{toolName}\\WObj:={wobjName};");
+                    m_instList.Add($"MoveC cir{setName}{i}, to{setName}{i}, {speed[i]}, {zone[i]},{toolName}\\WObj:={wobjName};");
                 }
             }
             else
@@ -2962,7 +2972,7 @@ namespace Dynamo_TORO
                 for (int i = 0; i < tCt; i++)
                 {
                     m_cnstList.Add($"CONST robtarget {setName}{i}:={targets[i]};");
-                    m_instList.Add($"{moveInst} {setName}{i},v{m_speed[i]},{m_zone[i]},{toolName}\\WObj:={wobjName};");
+                    m_instList.Add($"{moveInst} {setName}{i}, {m_speedName[i]}, {m_zone[i]},{toolName}\\WObj:={wobjName};");
                 }
             }
 
