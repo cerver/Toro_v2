@@ -418,27 +418,21 @@
             Create instructions.
             </summary>
         </member>
-        <member name="M:Dynamo_TORO.Instructions.#ctor">
-            <summary>
-            Rapid Instructions
-            </summary>
-        </member>
-        <member name="M:Dynamo_TORO.Instructions.MoveLDO(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{System.Int32},System.String,System.String,System.String,System.Boolean)">
+        <member name="M:Dynamo_TORO.Instructions.MoveCommand(System.Int32,System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Double},System.Collections.Generic.List{System.Double},System.String,System.String,System.String,System.Boolean)">
             <summary>
             Create a linear movement instruction.
             </summary>
+            <param name="moveType">0= moveL , 1= moveJ, 2= MoveC</param>
             <param name="targets">Robot target</param>
             <param name="speed">Speed data (rounds to default in RobotStudio)</param>
             <param name="zone">Zone data (rounds to default in RobotStudio)</param>
             <param name="setName">Unique name for this instruction</param>
             <param name="toolName">Active tool</param>
             <param name="wobjName">Active work-object</param>
-            <param name="defaultSpeeds">If true it will round the speed values to robot studio default values</param>
-            <param name="DoNames"></param>
-            /// <param name="DoVals"></param>
+            <param name="defautSpeeds">If true it will round the speed values to robot studio default values</param>
             <returns></returns>
         </member>
-        <member name="M:Dynamo_TORO.Instructions.MoveL(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Int32},System.String,System.String,System.String,System.Boolean)">
+        <member name="M:Dynamo_TORO.Instructions.MoveL(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Double},System.Collections.Generic.List{System.Double},System.String,System.String,System.String,System.Boolean)">
             <summary>
             Create a linear movement instruction.
             </summary>
@@ -451,7 +445,7 @@
             <param name="defautSpeeds">If true it will round the speed values to robot studio default values</param>
             <returns></returns>
         </member>
-        <member name="M:Dynamo_TORO.Instructions.MoveJ(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Int32},System.String,System.String,System.String,System.Boolean)">
+        <member name="M:Dynamo_TORO.Instructions.MoveJ(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Object},System.String,System.String,System.String)">
             <summary>
             Create a joint movement instruction.
             </summary>
@@ -463,19 +457,19 @@
             <param name="wobjName">Active work-object</param>
             <returns></returns>
         </member>
-        <member name="M:Dynamo_TORO.Instructions.MoveAbsJ(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Int32},System.String,System.String,System.String,System.Boolean)">
+        <member name="M:Dynamo_TORO.Instructions.MoveAbsJ(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.JointTarget},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Object},System.String,System.String,System.String)">
             <summary>
-            Create a abs joint movement instruction.
+            Create an absolute joint movement instruction.
             </summary>
-            <param name="targets">Robot target</param>
+            <param name="targets">Joint target</param>
             <param name="speed">Speed data (rounds to default in RobotStudio)</param>
             <param name="zone">Zone data (rounds to default in RobotStudio)</param>
-            <param name="setName">Unique name of this instruction</param>
+            <param name="setName">Unique name for this instruction</param>
             <param name="toolName">Active tool</param>
             <param name="wobjName">Active work-object</param>
             <returns></returns>
         </member>
-        <member name="M:Dynamo_TORO.Instructions.MoveC(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{System.Int32},System.String,System.String,System.String)">
+        <member name="M:Dynamo_TORO.Instructions.MoveC(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Object},System.String,System.String,System.String)">
             <summary>
             Create a circular movement instruction.
             </summary>
@@ -553,15 +547,6 @@
             <returns></returns>
         </member>
         <member name="M:Dynamo_TORO.Utilities.InsertAtIndex(System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Int32})">
-            <summary>
-            Insert an item into a list at specified index.
-            </summary>
-            <param name="list">Initial list</param>
-            <param name="item">Item to insert</param>
-            <param name="index">Index at which to insert</param>
-            <returns></returns>
-        </member>
-        <member name="M:Dynamo_TORO.Utilities.InsertAtFirstLast(System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Object})">
             <summary>
             Insert an item into a list at specified index.
             </summary>
@@ -866,6 +851,15 @@
             <param name="controllerData">Controller data</param>
             <returns></returns>
         </member>
+        <member name="M:Dynamo_TORO.RobComm.getProgramData(System.Boolean,System.String[],System.String)">
+            <summary>
+            Read tooldata and wobjdata for MainModule on controller.
+            </summary>
+            <param name="run">True to run</param>
+            <param name="controllerData">Controller data</param>
+            <param name="moduleName">Module name: MainModule | BASE | user (case sensitive)</param>
+            <returns></returns>
+        </member>
         <member name="M:Dynamo_TORO.RobComm.getCurrentPosition(System.Boolean,System.String[])">
             <summary>
             Read RobTarget and JointTarget from current position.
@@ -898,14 +892,6 @@
             <param name="controllerData">Controller data</param>
             <param name="value"></param>
         </member>
-        <member name="M:Dynamo_TORO.RobComm.TestTarget(System.Boolean,System.String[])">
-            <summary>
-            Set current program pointer on controller.
-            </summary>
-            <param name="run">True to run</param>
-            <param name="controllerData">Controller data</param>
-            <param name="value"></param>
-        </member>
         <member name="M:Dynamo_TORO.RobComm.StopSim(System.Boolean,System.String[])">
             <summary>
             Stop the simulation
@@ -913,22 +899,6 @@
             <param name="run">True to run</param>
             <param name="controllerData">Controller data</param>
             <param name="value"></param>
-        </member>
-        <member name="M:Dynamo_TORO.UtilFuncs.MoveCommand(Dynamo_TORO.UtilFuncs.MoveType,System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.Int32},System.String,System.String,System.String,System.Boolean,System.Collections.Generic.List{System.String}@,System.Collections.Generic.List{System.String}@)">
-            <summary>
-            Create a movement instruction.
-            </summary>
-            <param name="moveType"></param>
-            <param name="targets">Robot target</param>
-            <param name="speed">Speed data (rounds to default in RobotStudio)</param>
-            <param name="zone">Zone data (rounds to default in RobotStudio)</param>
-            <param name="DOnames">if using a MoveDO command sets the DO val  , true=1</param>
-            <param name="DOvals">if using a MoveDO command sets the DO val  , true=1</param>
-            <param name="setName">Unique name for this instruction</param>
-            <param name="toolName">Active tool</param>
-            <param name="wobjName">Active work-object</param>
-            <param name="defautSpeeds">If true it will round the speed values to robot studio default values</param>
-            <returns></returns>
         </member>
     </members>
 </doc>

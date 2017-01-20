@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Dynamo_TORO")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Nicholas A Cote")]
+[assembly: AssemblyCompany("Nicholas A Cote (v2 updates by Robert Cervellione")]
 [assembly: AssemblyProduct("")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.22.0.2")]
-[assembly: AssemblyFileVersion("1.22.0.2")]
+[assembly: AssemblyVersion("1.22.0.4")]
+[assembly: AssemblyFileVersion("1.22.0.4")]

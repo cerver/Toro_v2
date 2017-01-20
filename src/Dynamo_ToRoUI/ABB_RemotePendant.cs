@@ -97,7 +97,7 @@ namespace Dynamo_TORO
             set
             {
                 _selectedCtrlIndex = value;
-                RaisePropertyChanged("NodeMessage");
+                
                 if (_selectedCtrlIndex >= 0)
                 {
                     CustomUi.ProgramPanel.enableButtons();
@@ -107,6 +107,7 @@ namespace Dynamo_TORO
                 {
                     CustomUi.ProgramPanel.disableButtons();
                 }
+                RaisePropertyChanged("NodeMessage");
             }
         }
 
@@ -539,7 +540,7 @@ namespace Dynamo_TORO
                         input.Add(inData);
                 }
             }
-
+            RaisePropertyChanged("NodeMessage");
             return input;
         }
 

@@ -2878,7 +2878,7 @@ namespace Dynamo_TORO
                     moveInst = "MoveL";
                     break;
             }
-
+            //ToDo: add wrining for speed not being an int or type of speed
 
             if (speed.Count != tCt && speed.Count != 1) throw new WarningException("The speed count must be equal to the target count or only one value");
             if (zone.Count != tCt && zone.Count != 1) throw new WarningException("The zone count must be equal to the target count or only one value");
@@ -2896,8 +2896,8 @@ namespace Dynamo_TORO
             {
                 if (speed[0] is int)
                 {
-                    m_speedName = Enumerable.Repeat($"s_{setName}", tCt).ToList();
-                    m_cnstList.Add($"VAR speeddata s_{setName} := [ {speed[0]}, 100, 100, 100 ];");
+                    m_speedName = Enumerable.Repeat($"v_{setName}", tCt).ToList();
+                    m_cnstList.Add($"VAR speeddata v_{setName} := [ {speed[0]}, 100, 100, 100 ];");
                 }
                 else if (speed[0] is Speed)
                 {
@@ -2914,7 +2914,7 @@ namespace Dynamo_TORO
                 {
                     if (s is int)
                     {
-                        m_speedName.Add($"s_{setName}{sct}");
+                        m_speedName.Add($"v_{setName}{sct}");
                         m_cnstList.Add($"VAR speeddata v_{setName}{sct} := [ {s}, 100, 100, 100 ];");
                     }
                     else if (s is Speed)

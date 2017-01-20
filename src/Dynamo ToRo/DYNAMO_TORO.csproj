@@ -132,22 +132,15 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="SimulationFunction.cs" />
-    <Compile Include="WIP_ROBARCH.cs" />
+    <None Include="WIP_ROBARCH.cs" />
     <Compile Include="TORO_Base.cs" />
-    <Compile Include="WIP_WELDING.cs" />
+    <None Include="WIP_WELDING.cs" />
     <Compile Include="TORO_UTILS.cs" />
     <Compile Include="TORO_MAIN.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WireFrameToRobot\aWireFrameToRobot.csproj">
-      <Project>{ae48041c-739c-4609-9830-2649147edfed}</Project>
-      <Name>aWireFrameToRobot</Name>
-      <Private>False</Private>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
