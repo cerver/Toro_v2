@@ -278,17 +278,18 @@
         </Style>
     </UserControl.Resources>
     <Grid>
+        <Button x:Name="UpdateRapid" Panel.ZIndex="3" Margin="10,10,0,0" Content="Update" Command="{Binding BtUpdateNode}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="60"/>
+        <Expander x:Name="ControlerExpander" Header="Controler" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top" Height="366" Width="607" Collapsed="ControlerExpander_Collapsed" Expanded="ControlerExpander_Expanded" Background="#FFF1F1F1" BorderBrush="{x:Null}" IsExpanded="True">
+                <TabControl x:Name="tabControl" TabStripPlacement="Top" HorizontalAlignment="Left" Margin="10,0,0,0" Width="580" Height="321" Style="{DynamicResource NewControlStyle}" Foreground="White" Background="White" >
+                    <TabItem Header="Program" Width="65" Style="{DynamicResource TabItemStyle1}" >
+                        <local:tab_program x:Name="ProgramPanel" Margin="0,0,75,0" ></local:tab_program>
+                    </TabItem>
+                    <TabItem Header="Setup" Style="{DynamicResource TabItemStyle1}" >
+                        <local:tab_Setup x:Name="SetupPanel"></local:tab_Setup>
 
-        <Expander x:Name="ControlerExpander" Header="Controler" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="390" Width="607" IsExpanded="True" Collapsed="ControlerExpander_Collapsed" Expanded="ControlerExpander_Expanded" Background="#FFF1F1F1" BorderBrush="{x:Null}">
-            <TabControl x:Name="tabControl" TabStripPlacement="Top" HorizontalAlignment="Left" Margin="10,0,-12,0" Width="580" Height="352" Style="{DynamicResource NewControlStyle}" Foreground="White" Background="White" >
-                <TabItem Header="Program" Width="65" Style="{DynamicResource TabItemStyle1}" >
-                    <local:tab_program x:Name="ProgramPanel" Margin="0,0,75,0" ></local:tab_program>
-                </TabItem>
-                <TabItem Header="Setup" Style="{DynamicResource TabItemStyle1}" >
-                    <local:tab_Setup x:Name="SetupPanel"></local:tab_Setup>
-                  
-                </TabItem>
-            </TabControl>
-        </Expander>
+                    </TabItem>
+                </TabControl>
+            </Expander>
+       
     </Grid>
 </UserControl>

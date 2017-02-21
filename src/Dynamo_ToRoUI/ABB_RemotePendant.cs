@@ -21,9 +21,8 @@ using ProtoCore.AST.AssociativeAST;
 using Dynamo.Events;
 using Dynamo.ViewModels;
 using Dynamo_TORO.NodeUI;
-using Microsoft.Win32;
 using String = System.String;
-using Task = ABB.Robotics.Controllers.RapidDomain.Task;
+using Dynamo_TORO;
 
 //created by Robert Cervellione
 namespace Dynamo_TORO
@@ -133,6 +132,8 @@ namespace Dynamo_TORO
         public DelegateCommand BtStop { get; set; }
         [IsVisibleInDynamoLibrary(false)]
         public DelegateCommand ProgramPointerChangedCommand { get; set; }
+        [IsVisibleInDynamoLibrary(false)]
+        public DelegateCommand BtUpdateNode { get; set; }
 
         [IsVisibleInDynamoLibrary(false)]
         internal delegate List<object> GetInputDelegate(int inputNum);
@@ -165,6 +166,7 @@ namespace Dynamo_TORO
             BtPlayFromPointer = new DelegateCommand(PlayFromPointer, IsOk);
             BtStop = new DelegateCommand(StopSim, IsOk);
             ProgramPointerChangedCommand = new DelegateCommand(StopSim, IsOk);
+            BtUpdateNode = new DelegateCommand(updateNode, IsOk);
 
             //  ExecutionEvents.GraphPostExecution += ExecutionEvents_GraphPostExecution;
             // ExecutionEvents.GraphPreExecution += ExecutionEvents_GraphPreExecution;
@@ -204,7 +206,7 @@ namespace Dynamo_TORO
             getInput = GetNodeInputs;
 
             //setup list to hold elements
-            List<string> cnstList = new List<string>();
+            List<object> cnstList = new List<object>();
             List<string> instList = new List<string>();
             List<string> toolList = new List<string>();
             List<string> wobjList = new List<string>();
@@ -214,7 +216,7 @@ namespace Dynamo_TORO
             if (NodeModel != null && NodeView != null)
             {
                 if (HasConnectedInput(0))
-                    cnstList = getInput.Invoke(0).OfType<string>().ToList();
+                    cnstList = getInput.Invoke(0).OfType<object>().ToList();
                 if (HasConnectedInput(1))
                     instList = getInput.Invoke(1).OfType<string>().ToList();
                 if (HasConnectedInput(2))
@@ -222,7 +224,7 @@ namespace Dynamo_TORO
                 if (HasConnectedInput(3))
                     wobjList = getInput.Invoke(3).OfType<string>().ToList();
 
-                Func<string, List<string>, List<string>, List<string>, List<string>, string> func =
+                Func<string, List<object>, List<string>, List<string>, List<string>, string> func =
                     ToroUIfunctions.processUIdata;
 
                 string progData = string.Empty;
@@ -478,6 +480,11 @@ namespace Dynamo_TORO
             {
                 RobComm.StopSim(true, CustomUi.SetupPanel.selectedControler);
             }
+        }
+
+        internal void updateNode(object obj)
+        {
+            OnNodeModified(true);
         }
 
 

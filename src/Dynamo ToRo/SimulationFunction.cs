@@ -231,5 +231,56 @@ namespace Dynamo_TORO.SimFunctions
 
         }
 
+        //////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////
+        /*
+                public static bool CreateTool(string[] controllerData, string ToolName, ABBMesh ToolGeom, Plane AttachmentPl, Plane ToolTip)
+                {
+
+
+         
+                    Station station = Project.ActiveProject as Station;
+                    RsTask task = station.ActiveTask;
+            
+            // create sample geometry
+                    Part part = new Part();
+                    MeshBody tool = ToroHelpFunc.MeshToMeshBody(ToolGeom);
+                    part.Bodies.Add(tool.Body);
+                    part.Name = ToolName + "_Mesh";
+
+                    // create new tool
+                    MechanismBuilder b = new MechanismBuilder(MechanismType.Tool);
+                    b.Name = ToolName;
+                    b.ModelName = ToolName+"_Model";
+
+                    string link = "Geometry";
+                    b.AddLink(link, part);
+                    b.BaseLink = link;
+
+                ABBMath.Matrix4 offset = ABBMath.Matrix4.Identity;
+                    offset.TranslateLocal(ToolTip.Origin.X, ToolTip.Origin.Y, ToolTip.Origin.Z);
+                    // ...
+                    List<double> atQuat = Utilities.QuatListAtPlane(AttachmentPl);
+                    b.SetLoadData(1.0,new ABBMath.Vector3(AttachmentPl.Origin.X, AttachmentPl.Origin.Y, AttachmentPl.Origin.Z),new ABBMath.Quaternion(atQuat[0], atQuat[1], atQuat[2],atQuat[3]),new ABBMath.Vector3(AttachmentPl.Normal.X, AttachmentPl.Normal.Y, AttachmentPl.Normal.Z)  );
+                    // assign gravity, offset, ...
+                    b.AddToolData(ToolName+"_Data", link, offset);
+
+                    Mechanism mechTool = b.CompileMechanism();
+                    mechTool.Name = ToolName+"_Mech";
+
+                    station.GraphicComponents.Add(mechTool);
+
+                    // and attach it to the flange:
+                    // of course you should check if flange does exist and so on
+                    task.Mechanism.GetFlanges()[0].Attach(mechTool, true);
+
+                    return true;
+                }
+*/
+
     }
 }

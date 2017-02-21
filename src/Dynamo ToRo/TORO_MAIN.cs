@@ -57,99 +57,12 @@ namespace Dynamo_TORO
 {
 
 
-    //////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////
-    /*
-    /// <summary>
-    /// simulate robot.
-    /// </summary>
-    public class RobotSimulation
-    {
-        [IsVisibleInDynamoLibrary(false)]
-        public RobotSimulation()
-        { }
-        
-        public static double[] checkTarget(string station, Plane target)
-        {
-            VirtualStation vs = new VirtualStation(station);
-           var rsTarget = vs.CreateTarget(target);
-
-            return vs.CalulateIK(target).Result;
-            
-
-        }
-
-        public static bool CheckTargetReach(string station, Plane target)
-        {
-            VirtualStation vs = new VirtualStation(station);
-            return vs.isTargetReachable(target);
-        }
-
-
-    }
-    */
-    /// <summary>
-    /// Create datatype.
-    /// </summary>
     public class DataTypes
     {
         private static object reader;
 
 
-        //////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////
-        /*
-                public static bool CreateTool(string[] controllerData, string ToolName, ABBMesh ToolGeom, Plane AttachmentPl, Plane ToolTip)
-                {
-
-
-         
-                    Station station = Project.ActiveProject as Station;
-                    RsTask task = station.ActiveTask;
-            
-            // create sample geometry
-                    Part part = new Part();
-                    MeshBody tool = ToroHelpFunc.MeshToMeshBody(ToolGeom);
-                    part.Bodies.Add(tool.Body);
-                    part.Name = ToolName + "_Mesh";
-
-                    // create new tool
-                    MechanismBuilder b = new MechanismBuilder(MechanismType.Tool);
-                    b.Name = ToolName;
-                    b.ModelName = ToolName+"_Model";
-
-                    string link = "Geometry";
-                    b.AddLink(link, part);
-                    b.BaseLink = link;
-
-                ABBMath.Matrix4 offset = ABBMath.Matrix4.Identity;
-                    offset.TranslateLocal(ToolTip.Origin.X, ToolTip.Origin.Y, ToolTip.Origin.Z);
-                    // ...
-                    List<double> atQuat = Utilities.QuatListAtPlane(AttachmentPl);
-                    b.SetLoadData(1.0,new ABBMath.Vector3(AttachmentPl.Origin.X, AttachmentPl.Origin.Y, AttachmentPl.Origin.Z),new ABBMath.Quaternion(atQuat[0], atQuat[1], atQuat[2],atQuat[3]),new ABBMath.Vector3(AttachmentPl.Normal.X, AttachmentPl.Normal.Y, AttachmentPl.Normal.Z)  );
-                    // assign gravity, offset, ...
-                    b.AddToolData(ToolName+"_Data", link, offset);
-
-                    Mechanism mechTool = b.CompileMechanism();
-                    mechTool.Name = ToolName+"_Mech";
-
-                    station.GraphicComponents.Add(mechTool);
-
-                    // and attach it to the flange:
-                    // of course you should check if flange does exist and so on
-                    task.Mechanism.GetFlanges()[0].Attach(mechTool, true);
-
-                    return true;
-                }
-*/
+      
         /// <summary>
         /// Create Tool
         /// </summary>
@@ -247,15 +160,15 @@ namespace Dynamo_TORO
         /// Define speeddata.
         /// </summary>
         /// <param name="varName">Name of speeddata variable</param>
-        /// <param name="v_tcp">Speed at tool center point in mm/s</param>
+        /// <param name="v_tcp">TSpeed at tool center point in mm/s</param>
         /// <param name="v_ori">Reorientation speed of the TCP in deg</param>
         /// <param name="v_leax">Linear speed of external axes in mm/s</param>
         /// <param name="v_reax">Rotational speed of external axes in deg</param>
         /// <returns></returns>
-        public static string Speeddata(string varName = "speed", double v_tcp = 250, double v_ori = 500, double v_leax = 5000, double v_reax = 1000)
+        public static TSpeed Speeddata(string varName = "speed", int v_tcp = 250, int v_ori = 500, int v_leax = 5000, int v_reax = 1000)
         {
-            string speed = string.Format("VAR speeddata {0}:=[{1},{2},{3},{4}];", varName, v_tcp, v_ori, v_leax, v_reax);
-            return speed;
+            return new TSpeed(varName,v_tcp,v_ori,v_leax,v_reax);
+  
         }
 
         /// <summary>
@@ -388,7 +301,7 @@ namespace Dynamo_TORO
         /// <param name="progsynch">Sychronization with RAPID program execution</param>
         /// <param name="type">1 = inpos; 2 = stoptime; 3 = followtime</param>
         /// <param name="inpos_position">Position condition for TCP</param>
-        /// <param name="inpos_speed">Speed condition for TCP</param>
+        /// <param name="inpos_speed">TSpeed condition for TCP</param>
         /// <param name="inpos_mintime">Minimum wait time</param>
         /// <param name="inpos_maxtime">Maximum wait time</param>
         /// <param name="stoptime">Time stopped</param>
@@ -730,7 +643,7 @@ namespace Dynamo_TORO
         /// Create a linear movement instruction.
         /// </summary>
         /// <param name="targets">Robot target</param>
-        /// <param name="speed">Speed data (rounds to default in RobotStudio)</param>
+        /// <param name="speed">TSpeed data (rounds to default in RobotStudio)</param>
         /// <param name="zone">Zone data (rounds to default in RobotStudio)</param>
         /// <param name="setName">Unique name for this instruction</param>
         /// <param name="toolName">Active tool</param>
@@ -740,20 +653,20 @@ namespace Dynamo_TORO
         /// /// <param name="DoVals"></param>
         /// <returns></returns>
         [MultiReturn(new[] { "cnstList", "instList" })]
-        public static Dictionary<string, List<string>> MoveLDO(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<object> speed, [DefaultArgumentAttribute("{DO10_1}")] List<string> DoNames, [DefaultArgumentAttribute("{0}")] List<int> DoVals, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defaultSpeeds = false)
+        public static Dictionary<string, List<object>> MoveLDO(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<object> speed, [DefaultArgumentAttribute("{DO10_1}")] List<string> DoNames, [DefaultArgumentAttribute("{0}")] List<int> DoVals, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defaultSpeeds = false)
         {
             // setup
-            List<string> cnstList = new List<string>();
-            List<string> instList = new List<string>();
+            List<object> cnstList = new List<object>();
+            List<object> instList = new List<object>();
 
             UtilFuncs.MoveCommand(UtilFuncs.MoveType.MoveLDO, targets, speed, zone, DoNames, DoVals, setName, toolName, wobjName, defaultSpeeds, out cnstList, out instList);
 
 
             //end step
-            return new Dictionary<string, List<string>>
+            return new Dictionary<string, List<object>>
             {
                 {"cnstList", cnstList},
-                {"instList", instList},
+                {"instList", instList}
                 };
         }
 
@@ -763,7 +676,7 @@ namespace Dynamo_TORO
         /// Create a linear movement instruction.
         /// </summary>
         /// <param name="targets">Robot target</param>
-        /// <param name="speed">Speed data (rounds to default in RobotStudio)</param>
+        /// <param name="speed">TSpeed data (rounds to default in RobotStudio)</param>
         /// <param name="zone">Zone data (rounds to default in RobotStudio)</param>
         /// <param name="setName">Unique name for this instruction</param>
         /// <param name="toolName">Active tool</param>
@@ -771,17 +684,17 @@ namespace Dynamo_TORO
         /// <param name="defautSpeeds">If true it will round the speed values to robot studio default values</param>
         /// <returns></returns>
         [MultiReturn(new[] { "cnstList", "instList" })]
-        public static Dictionary<string, List<string>> MoveL(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<object> speed, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defaultSpeeds = false)
+        public static Dictionary<string, List<object>> MoveL(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<object> speed, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defaultSpeeds = false)
         {
             // setup
-            List<string> cnstList = new List<string>();
-            List<string> instList = new List<string>();
+            List<object> cnstList = new List<object>();
+            List<object> instList = new List<object>();
 
             UtilFuncs.MoveCommand(UtilFuncs.MoveType.MoveL, targets, speed, zone, null, null, setName, toolName, wobjName, defaultSpeeds, out cnstList, out instList);
            
 
             //end step
-            return new Dictionary<string, List<string>>
+            return new Dictionary<string, List<object>>
             {
                 {"cnstList", cnstList},
                 {"instList", instList},
@@ -792,51 +705,51 @@ namespace Dynamo_TORO
         /// Create a joint movement instruction.
         /// </summary>
         /// <param name="targets">Robot target</param>
-        /// <param name="speed">Speed data (rounds to default in RobotStudio)</param>
+        /// <param name="speed">TSpeed data (rounds to default in RobotStudio)</param>
         /// <param name="zone">Zone data (rounds to default in RobotStudio)</param>
         /// <param name="setName">Unique name of this instruction</param>
         /// <param name="toolName">Active tool</param>
         /// <param name="wobjName">Active work-object</param>
         /// <returns></returns>
         [MultiReturn(new[] { "cnstList", "instList" })]
-        public static Dictionary<string, List<string>> MoveJ(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<object> speed, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defaultSpeeds = true)
+        public static Dictionary<string, List<object>> MoveJ(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<object> speed, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defaultSpeeds = true)
         {
             // setup
-            List<string> cnstList = new List<string>();
-            List<string> instList = new List<string>();
+            List<object> cnstList = new List<object>();
+            List<object> instList = new List<object>();
    
             UtilFuncs.MoveCommand(UtilFuncs.MoveType.MoveJ, targets, speed, zone, null, null, setName, toolName, wobjName, defaultSpeeds, out cnstList, out instList);
 
 
             // end step
-            return new Dictionary<string, List<string>>
+            return new Dictionary<string, List<object>>
             {
                 {"cnstList", cnstList},
-                {"instList", instList},
+                {"instList", instList}
                 };
         }
         /// <summary>
         /// Create a abs joint movement instruction.
         /// </summary>
         /// <param name="targets">Robot target</param>
-        /// <param name="speed">Speed data (rounds to default in RobotStudio)</param>
+        /// <param name="speed">TSpeed data (rounds to default in RobotStudio)</param>
         /// <param name="zone">Zone data (rounds to default in RobotStudio)</param>
         /// <param name="setName">Unique name of this instruction</param>
         /// <param name="toolName">Active tool</param>
         /// <param name="wobjName">Active work-object</param>
         /// <returns></returns>
         [MultiReturn(new[] { "cnstList", "instList" })]
-        public static Dictionary<string, List<string>> MoveAbsJ(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<object> speed, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defaultSpeeds = true)
+        public static Dictionary<string, List<object>> MoveAbsJ(List<RobTarget> targets, [DefaultArgumentAttribute("{100}")] List<object> speed, [DefaultArgumentAttribute("{0}")] List<int> zone, string setName = "set0", string toolName = "tool0", string wobjName = "wobj0", bool defaultSpeeds = true)
         {
             // setup
-            List<string> cnstList = new List<string>();
-            List<string> instList = new List<string>();
+            List<object> cnstList = new List<object>();
+            List<object> instList = new List<object>();
 
             UtilFuncs.MoveCommand(UtilFuncs.MoveType.MoveAbsJ, targets, speed, zone, null, null, setName, toolName, wobjName, defaultSpeeds, out cnstList, out instList);
 
 
             // end step
-            return new Dictionary<string, List<string>>
+            return new Dictionary<string, List<object>>
             {
                 {"cnstList", cnstList},
                 {"instList", instList},
@@ -848,7 +761,7 @@ namespace Dynamo_TORO
         /// </summary>
         /// <param name="cirTarget">Robot target (through point)</param>
         /// <param name="toTarget">Robot target (destination)</param>
-        /// <param name="speed">Speed data (rounds to default in RobotStudio)</param>
+        /// <param name="speed">TSpeed data (rounds to default in RobotStudio)</param>
         /// <param name="zone">Zone data (rounds to default in RobotStudio)</param>
         /// <param name="setName">Unique name for this instruction</param>
         /// <param name="toolName">Active tool</param>
@@ -963,14 +876,14 @@ namespace Dynamo_TORO
         /// <param name="wobjList">List of work-object data</param>
         /// <returns></returns>
         [MultiReturn(new[] { "filePath", "robotCode" })]
-        public static Dictionary<string, string> createRapidCode(string filePath, List<string> cnstList, List<string> instList, List<string> toolList, List<string> wobjList)
+        public static Dictionary<string, string> createRapidCode(string filePath, List<TConstant> cnstList, List<string> instList, List<string> toolList, List<string> wobjList)
         {
             // setup
             var cnstBuilder = new StringBuilder();
             var instBuilder = new StringBuilder();
             var toolBuilder = new StringBuilder();
             var wobjBuilder = new StringBuilder();
-            foreach (string cnst in cnstList)
+            foreach (TConstant cnst in cnstList)
             {
                 string cnst2 = "\n" + cnst;
                 if (!cnst2.EndsWith(";")) { cnst2 = cnst2 + ";"; }
@@ -996,16 +909,19 @@ namespace Dynamo_TORO
             }
 
             // create rapid
-            string r = "";
+            string content = "";
             using (var tw = new StreamWriter(filePath, false))
             {
-                string content = @"MODULE MainModule
-    !program Data : Created by Dyanmo TORO
-    {0}
-    {1}
+                content = $@"MODULE MainModule
+    !Created by Dyanmo TORO
+------------------------------------
+    !----Tool Data
+    {toolBuilder}
+    !----Work Object
+    {wobjBuilder}
 
-    !Target Data
-    {2}
+    !----Constant Data
+    {cnstBuilder}
 
     !Routine
     PROC main()
@@ -1016,15 +932,13 @@ namespace Dynamo_TORO
     ENDPROC
                     
     PROC rStart()
-    !instructions
-    {3}
+    !----instructions
+    {instBuilder}
     RETURN;
     ENDPROC
     ENDMODULE";
 
-                r = string.Format(content, toolBuilder.ToString(), wobjBuilder.ToString(), cnstBuilder.ToString(), instBuilder.ToString());
-
-                tw.Write(r);
+                tw.Write(content);
                 tw.Flush();
                 tw.Close();
             }
@@ -1033,7 +947,7 @@ namespace Dynamo_TORO
             return new Dictionary<string, string>
             {
                 {"filePath", filePath},
-                {"robotCode", r}
+                {"robotCode", content}
             };
 
         }
@@ -2818,7 +2732,7 @@ namespace Dynamo_TORO
         /// </summary>
         /// <param name="moveType"></param>
         /// <param name="targets">Robot target</param>
-        /// <param name="speed">Speed data (rounds to default in RobotStudio)</param>
+        /// <param name="speed">TSpeed data (rounds to default in RobotStudio)</param>
         /// <param name="zone">Zone data (rounds to default in RobotStudio)</param>
         /// <param name="DOnames">if using a MoveDO command sets the DO val  , true=1</param>
         /// <param name="DOvals">if using a MoveDO command sets the DO val  , true=1</param>
@@ -2838,14 +2752,14 @@ namespace Dynamo_TORO
             string toolName ,
             string wobjName ,
             bool defautSpeeds ,
-            out List<string> cnstList ,
-            out List<string> instList)
+            out List<object> cnstList ,
+            out List<object> instList)
 
         {
             // setup
             int tCt = targets.Count;
-            List<string> m_cnstList = new List<string>(tCt*2);
-            List<string> m_instList = new List<string>(tCt);
+            List<object> m_cnstList = new List<object>(tCt*2);
+            List<object> m_instList = new List<object>(tCt);
             List<string>m_speedName = new List<string>(tCt);
             List<string>m_zone = new List<string>(tCt);
             List<string>m_DoName= new List<string>(tCt);
@@ -2897,12 +2811,12 @@ namespace Dynamo_TORO
                 if (speed[0] is int)
                 {
                     m_speedName = Enumerable.Repeat($"v_{setName}", tCt).ToList();
-                    m_cnstList.Add($"VAR speeddata v_{setName} := [ {speed[0]}, 100, 100, 100 ];");
+                    m_cnstList.Add(new TConstant(TConstant.ConsType.Speed, $"VAR speeddata v_{setName} := [ {speed[0]}, 100, 100, 100 ];"));
                 }
-                else if (speed[0] is Speed)
+                else if (speed[0] is TSpeed)
                 {
-                    var m_s = speed[0] as Speed;
-                    m_cnstList.Add(m_s.SpeedData);
+                    var m_s = speed[0] as TSpeed;
+                    m_cnstList.Add(new TConstant(TConstant.ConsType.Speed , m_s.RapidCode));
                 }
                 else
                     success = false;
@@ -2915,12 +2829,12 @@ namespace Dynamo_TORO
                     if (s is int)
                     {
                         m_speedName.Add($"v_{setName}{sct}");
-                        m_cnstList.Add($"VAR speeddata v_{setName}{sct} := [ {s}, 100, 100, 100 ];");
+                        m_cnstList.Add(new TConstant(TConstant.ConsType.Speed , $"VAR speeddata v_{setName}{sct} := [ {s}, 100, 100, 100 ];"));
                     }
-                    else if (s is Speed)
+                    else if (s is TSpeed)
                     {
-                        var m_s = s as Speed;
-                        m_cnstList.Add(m_s.SpeedData);
+                        var m_s = s as TSpeed;
+                        m_cnstList.Add(new TConstant(TConstant.ConsType.Speed, m_s.RapidCode));
                         m_speedName.Add(m_s.v_name);
                     }
                     else
@@ -2954,7 +2868,7 @@ namespace Dynamo_TORO
 
                 for (int i = 0; i < tCt; i++)
                 {
-                    m_cnstList.Add($"CONST robtarget {setName}{i}:={targets[i]};");
+                    m_cnstList.Add(new TConstant(TConstant.ConsType.RobTarget, $"CONST robtarget {setName}{i}:={targets[i]};"));
                     m_instList.Add($"{moveInst} {setName}{i}, {m_speedName[i]}, {m_zone[i]}, {toolName}\\WObj:={wobjName} ,{m_DoName[i]}, {m_DoVal[i]};");
  
                 }
@@ -2963,7 +2877,7 @@ namespace Dynamo_TORO
             {
                 for (int i = 0; i < tCt; i++)
                 {
-                    m_cnstList.Add($"CONST robtarget cir{setName}{i}:={targets[i]}; CONST robtarget to{setName}{i}:={targets[i]};");
+                    m_cnstList.Add(new TConstant(TConstant.ConsType.RobTarget,$"CONST robtarget cir{setName}{i}:={targets[i]}; CONST robtarget to{setName}{i}:={targets[i]};"));
                     m_instList.Add($"MoveC cir{setName}{i}, to{setName}{i}, {speed[i]}, {zone[i]},{toolName}\\WObj:={wobjName};");
                 }
             }
@@ -2971,7 +2885,7 @@ namespace Dynamo_TORO
             {
                 for (int i = 0; i < tCt; i++)
                 {
-                    m_cnstList.Add($"CONST robtarget {setName}{i}:={targets[i]};");
+                    m_cnstList.Add(new TConstant(TConstant.ConsType.RobTarget, $"CONST robtarget {setName}{i}:={targets[i]};"));
                     m_instList.Add($"{moveInst} {setName}{i}, {m_speedName[i]}, {m_zone[i]},{toolName}\\WObj:={wobjName};");
                 }
             }

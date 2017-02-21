@@ -210,13 +210,16 @@ namespace Dynamo_TORO
             
         }
 
-        public static string processUIdata(string filePath, List<string> cnstList, List<string> instList, List<string> tool, List<string> wobj)
+        public static string processUIdata(string filePath, List<object> cnstList, List<string> instList, List<string> tool, List<string> wobj)
         {
+            List<TConstant> constant = new List<TConstant>(cnstList.Count);
+
+            constant.AddRange(cnstList.Cast<TConstant>());
+            constant.Sort((x, y) => x.CType.CompareTo(y.CType));
 
             Dictionary<string, string> writeData = null;
-            Task writeFile = new TaskFactory().StartNew(() => writeData= Write.createRapidCode(filePath, cnstList, instList, tool, wobj));
+            Task writeFile = new TaskFactory().StartNew(() => writeData= Write.createRapidCode(filePath, constant, instList, tool, wobj));
             writeFile.Wait();
-            //var writeData = Write.createRapid0(filePath, cnstList, instList, tool, wobj);
             return writeData["robotCode"];
 
 

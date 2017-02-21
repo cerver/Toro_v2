@@ -27,14 +27,17 @@ namespace Dynamo_TORO.NodeUI
 
         private void ControlerExpander_Collapsed(object sender, RoutedEventArgs e)
         {
-            remotePnlMain.Height = 50;
+            remotePnlMain.Height = 65;
             remotePnlMain.Width = 100;
+           
+
         }
 
         private void ControlerExpander_Expanded(object sender, RoutedEventArgs e)
         {
             remotePnlMain.Height = 400;
             remotePnlMain.Width = 600;
+     
         }
     }
 }

@@ -76,4 +76,3 @@ D:\GoogleDrive\Code\Toro_v2\src\Dynamo ToRo\bin\Release\fr\RobotStudio.Resources
 D:\GoogleDrive\Code\Toro_v2\src\Dynamo ToRo\bin\Release\it\RobotStudio.Resources.resources.dll
 D:\GoogleDrive\Code\Toro_v2\src\Dynamo ToRo\bin\Release\ja\RobotStudio.Resources.resources.dll
 D:\GoogleDrive\Code\Toro_v2\src\Dynamo ToRo\bin\Release\zh-CN\RobotStudio.Resources.resources.dll
-D:\GoogleDrive\Code\Toro_v2\src\Dynamo ToRo\obj\Release\DYNAMO_TORO.csprojResolveAssemblyReference.cache
