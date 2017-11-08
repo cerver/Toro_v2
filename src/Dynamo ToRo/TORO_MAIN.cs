@@ -41,7 +41,7 @@ using ABBMesh = Autodesk.DesignScript.Geometry.Mesh;
 //with contributions from Sola Grantham, Anthony Kane, Nathan King, Jonathan Grinham, and others. 
 
 //Edits and UI nodes by Robert Cervellione
-
+//with contributions from Robert Cervellione
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -562,11 +562,11 @@ namespace Dynamo_TORO
         /// <param name="load">Load in kg</param>
         /// <param name="name">Name of tooldata variable</param>
         /// <returns></returns>
-        public static List<string> ToolAtPlane([DefaultArgumentAttribute("Plane.ByOriginNormal(Point.ByCoordinates(0,0,0.001),Vector.ByCoordinates(0,0,1))")] Plane pl, double load = 0.001, string name = "t")
+        public static List<string> ToolAtPlane([DefaultArgument("Plane.ByOriginNormal(Point.ByCoordinates(0,0,0.001),Vector.ByCoordinates(0,0,1))")] Plane TCP,  [DefaultArgument("Point.ByCoordinates(0,0,0)")]Point cog, double load = 0.001, string name = "t")
         {
             List<string> toolData = new List<string>();
-            List<double> quats = RobotUtils.PlaneToQuaternian(pl);
-            string tool = string.Format("PERS tooldata {0}:=[TRUE,[[{1},{2},{3}],[{4},{5},{6},{7}]],[{8},[0,0,0.001],[1,0,0,0],0,0,0]];", name, pl.Origin.X, pl.Origin.Y, pl.Origin.Z, quats[0], quats[1], quats[2], quats[3], load);
+            List<double> quats = RobotUtils.PlaneToQuaternian(TCP);
+            string tool = $"PERS tooldata {name}:=[TRUE,[[{TCP.Origin.X},{TCP.Origin.Y},{TCP.Origin.Z}],[{quats[0]},{quats[1]},{quats[2]},{quats[3]}]],[{load},[{cog.X},{cog.Y},{cog.Z}],[1,0,0,0],0,0,0]];";
             toolData.Add(tool);
             return toolData;
         }
@@ -914,7 +914,7 @@ namespace Dynamo_TORO
             {
                 content = $@"MODULE MainModule
     !Created by Dyanmo TORO
-------------------------------------
+!------------------------------------
     !----Tool Data
     {toolBuilder}
     !----Work Object
@@ -2805,6 +2805,7 @@ namespace Dynamo_TORO
 
 
             //speed
+            Dictionary<string, TConstant> speedDic = new Dictionary<string, TConstant>();
 
             if (speed.Count == 1)
             {
@@ -2829,12 +2830,28 @@ namespace Dynamo_TORO
                     if (s is int)
                     {
                         m_speedName.Add($"v_{setName}{sct}");
-                        m_cnstList.Add(new TConstant(TConstant.ConsType.Speed , $"VAR speeddata v_{setName}{sct} := [ {s}, 100, 100, 100 ];"));
+                        try
+                        {
+                            speedDic.Add($"v_{setName}{sct}", new TConstant(TConstant.ConsType.Speed, $"VAR speeddata v_{setName}{sct} := [ {s}, 100, 100, 100 ];"));
+
+                        }
+                        catch (Exception e)
+                        {
+                            
+                        }
+                        // m_cnstList.Add(new TConstant(TConstant.ConsType.Speed , $"VAR speeddata v_{setName}{sct} := [ {s}, 100, 100, 100 ];"));
                     }
                     else if (s is TSpeed)
                     {
                         var m_s = s as TSpeed;
-                        m_cnstList.Add(new TConstant(TConstant.ConsType.Speed, m_s.RapidCode));
+                        try
+                        {
+                            speedDic.Add(m_s.v_name, new TConstant(TConstant.ConsType.Speed, m_s.RapidCode));
+                        }catch(Exception e)
+                        {
+
+                        }
+                        //m_cnstList.Add(new TConstant(TConstant.ConsType.Speed, m_s.RapidCode));
                         m_speedName.Add(m_s.v_name);
                     }
                     else
@@ -2845,6 +2862,8 @@ namespace Dynamo_TORO
 
                     sct++;
                 }
+
+                m_cnstList.AddRange(speedDic.Values);
             }
 
 

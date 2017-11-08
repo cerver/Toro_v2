@@ -34,7 +34,7 @@
   <ItemGroup>
     <Reference Include="ABB.Robotics.Controllers.PC, Version=6.3.7016.2009, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\SDK\PCSDK 6.03\ABB.Robotics.Controllers.PC.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\RobotStudio 6.04\Bin64\ABB.Robotics.Controllers.PC.dll</HintPath>
     </Reference>
     <Reference Include="ABB.Robotics.Math, Version=6.3.7016.2009, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -150,6 +150,6 @@
     <Copy SourceFiles="@(PackageFiles)" DestinationFolder="$(SolutionDir)..\dynamo_package\DynamoToro\bin\" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetPath)"  "C:\Users\cerve\AppData\Roaming\Dynamo\Dynamo Core\1.2\packages\DynamoToro\bin\"  /R /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetPath)"  "C:\Users\cerve\AppData\Roaming\Dynamo\Dynamo Core\1.3\packages\DynamoToro\bin\"  /R /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>
