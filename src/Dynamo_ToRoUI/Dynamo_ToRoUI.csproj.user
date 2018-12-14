@@ -4,4 +4,7 @@
     <StartAction>Program</StartAction>
     <StartProgram>C:\Program Files\Autodesk\Dynamo Studio 2017\DynamoStudio.exe</StartProgram>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>C:\Program Files (x86)\ABB Industrial IT\Robotics IT\SDK\PCSDK 6.06\;C:\Program Files\Dynamo\Dynamo Core\2\</ReferencePath>
+  </PropertyGroup>
 </Project>

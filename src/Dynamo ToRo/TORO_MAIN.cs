@@ -165,7 +165,7 @@ namespace Dynamo_TORO
         /// <param name="v_leax">Linear speed of external axes in mm/s</param>
         /// <param name="v_reax">Rotational speed of external axes in deg</param>
         /// <returns></returns>
-        public static TSpeed Speeddata(string varName = "speed", int v_tcp = 250, int v_ori = 500, int v_leax = 5000, int v_reax = 1000)
+        public static TSpeed Speeddata(string varName = "speed", int v_tcp = 250, int v_ori = 250, int v_leax = 5000, int v_reax = 1000)
         {
             return new TSpeed(varName,v_tcp,v_ori,v_leax,v_reax);
   

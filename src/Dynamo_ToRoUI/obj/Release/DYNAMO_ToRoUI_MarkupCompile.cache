@@ -4,7 +4,7 @@
 library
 C#
 .cs
-D:\GoogleDrive\Code\Toro_v2\src\Dynamo_ToRoUI\obj\Release\
+G:\My Drive\Code\Toro_v2\src\Dynamo_ToRoUI\obj\Release\
 Dynamo_TORO
 none
 false
@@ -12,9 +12,9 @@ TRACE
 
 4487230845
 
-61600255501
-100-211246374
+101044296142
+100-1565628684
 NodeUI\RemotePanelMain.xaml;NodeUI\tab_Setup.xaml;NodeUI\tab_program.xaml;NodeUI\wfpStyles.xaml;
 
-False
+True
 

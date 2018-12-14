@@ -7,8 +7,8 @@ using System.Windows;
 using System.Windows.Controls;
 using WinForm = System.Windows.Forms;
 using System.Xml;
-using ABB.Robotics.Controllers;
-using ABB.Robotics.Controllers.RapidDomain;
+//using ABB.Robotics.Controllers;
+//using ABB.Robotics.Controllers.RapidDomain;
 using Autodesk.DesignScript.Geometry;
 using Autodesk.DesignScript.Runtime;
 using Dynamo.Controls;
@@ -23,6 +23,7 @@ using Dynamo.ViewModels;
 using Dynamo_TORO.NodeUI;
 using String = System.String;
 using Dynamo_TORO;
+using Newtonsoft.Json;
 
 //created by Robert Cervellione
 namespace Dynamo_TORO
@@ -31,12 +32,6 @@ namespace Dynamo_TORO
     [NodeDescription("Control Various function of a virtual or real ABB controler such as IRC5")]
     [NodeCategory("TORO.RobComm")]
     [IsDesignScriptCompatible]
-    [InPortNames("cnstList", "instList", "toolList", "wobjList")]
-    [InPortTypes("string", "string", "string", "string")]
-    [InPortDescriptions("List of constants", "List of instructions", "Tool data (EOAT)", "Work Object data")]
-    [OutPortNames("Program", "Controler")]
-    [OutPortTypes("string", "string[]")]
-    [OutPortDescriptions("This is the Rapid Program", "This is the current controler")]
     public class AbbRemotePendant : NodeModel
     {
 
@@ -70,8 +65,9 @@ namespace Dynamo_TORO
 
         #endregion
 
-        #region properties
+        
         [IsVisibleInDynamoLibrary(false)]
+        [JsonProperty(PropertyName = "ProgModFileLoc")]
         public string ProgModFileLoc
         {
             get
@@ -87,6 +83,7 @@ namespace Dynamo_TORO
         }
 
         [IsVisibleInDynamoLibrary(false)]
+        [JsonProperty(PropertyName = "SelectedCtrlIndex")]
         public int SelectedCtrlIndex
         {
             get
@@ -110,7 +107,38 @@ namespace Dynamo_TORO
             }
         }
 
-        
+        // Use the VMDataBridge to safely retrieve our input values
+        #region databridge callback
+        /// <summary>
+        /// Register the data bridge callback.
+        /// </summary>
+        protected override void OnBuilt()
+        {
+            base.OnBuilt();
+            VMDataBridge.DataBridge.Instance.RegisterCallback(GUID.ToString(), DataBridgeCallback);
+         
+        }
+
+        /// <summary>
+        /// Callback method for DataBridge mechanism.
+        /// This callback only gets called when 
+        ///     - The AST is executed
+        ///     - After the BuildOutputAST function is executed 
+        ///     - The AST is fully built
+        /// </summary>
+        /// <param name="data">The data passed through the data bridge.</param>
+        private void DataBridgeCallback(object data)
+        {
+            try
+            {
+                var dataObj = data;
+              
+            }
+            catch
+            {
+                Warning("DataBridge callback failed");
+            }
+        }
 
         /// <summary>
         /// DelegateCommand objects allow you to bind
@@ -154,6 +182,13 @@ namespace Dynamo_TORO
         [IsVisibleInDynamoLibrary(false)]
         public AbbRemotePendant()
         {
+            InPorts.Add(new PortModel(PortType.Input, this, new PortData("cnstList", "List of constants")));
+            InPorts.Add(new PortModel(PortType.Input, this, new PortData("instList", "List of instructions")));
+            InPorts.Add(new PortModel(PortType.Input, this, new PortData("toolList", "Tool data (EOAT)")));
+            InPorts.Add(new PortModel(PortType.Input, this, new PortData("wobjList", "Work Object data")));
+
+            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Program", "This is the Rapid Program")));
+            OutPorts.Add(new PortModel(PortType.Output, this, new PortData("Controler", "This is the current controler")));
 
             RegisterAllPorts();
 
@@ -168,24 +203,17 @@ namespace Dynamo_TORO
             ProgramPointerChangedCommand = new DelegateCommand(StopSim, IsOk);
             BtUpdateNode = new DelegateCommand(updateNode, IsOk);
 
-            //  ExecutionEvents.GraphPostExecution += ExecutionEvents_GraphPostExecution;
-            // ExecutionEvents.GraphPreExecution += ExecutionEvents_GraphPreExecution;
             NodeModel = this;
 
-    
-
+   
         }
 
-        private void ExecutionEvents_GraphPreExecution(Dynamo.Session.IExecutionSession session)
+        [JsonConstructor]
+        AbbRemotePendant(IEnumerable<PortModel> inPorts, IEnumerable<PortModel> outPorts) : base(inPorts, outPorts)
         {
-            _exacutionComplete = false;
-        }
-
-        private void ExecutionEvents_GraphPostExecution(Dynamo.Session.IExecutionSession session)
-        { 
-            _exacutionComplete = true;
 
         }
+
 
         #endregion
 
@@ -215,14 +243,20 @@ namespace Dynamo_TORO
             //get the inputs
             if (NodeModel != null && NodeView != null)
             {
-                if (HasConnectedInput(0))
+              
+                try
+                {
                     cnstList = getInput.Invoke(0).OfType<object>().ToList();
-                if (HasConnectedInput(1))
                     instList = getInput.Invoke(1).OfType<string>().ToList();
-                if (HasConnectedInput(2))
                     toolList = getInput.Invoke(2).OfType<string>().ToList();
-                if (HasConnectedInput(3))
                     wobjList = getInput.Invoke(3).OfType<string>().ToList();
+                }catch
+                {
+                    Warning("All inputs need valid connections");
+                }
+                    
+            
+
 
                 Func<string, List<object>, List<string>, List<string>, List<string>, string> func =
                     ToroUIfunctions.processUIdata;
@@ -234,8 +268,8 @@ namespace Dynamo_TORO
                 {
 
                     _fileExists = File.Exists(_ModFileLoc);
-                    if (_fileExists && HasConnectedInput(0) && HasConnectedInput(1) && HasConnectedInput(2) &&
-                        HasConnectedInput(3))
+                    //if (_fileExists && HasConnectedInput(0) && HasConnectedInput(1) && HasConnectedInput(2) && HasConnectedInput(3))
+                    if (_fileExists)
                     {
                         RunProcessRapidCode =
                             new TaskFactory().StartNew(
@@ -277,73 +311,7 @@ namespace Dynamo_TORO
             };
         }
 
-        protected override void SerializeCore(XmlElement nodeElement, SaveContext context)
-        {
-            base.SerializeCore(nodeElement, context);
-           
-            if (true)
-            {
-
-                XmlElement modFileLocElement = nodeElement.OwnerDocument.CreateElement("ModFileLocation");
-                modFileLocElement.SetAttribute("value", _ModFileLoc);
-                nodeElement.AppendChild(modFileLocElement);
-
-                XmlElement pgfFileLocElement = nodeElement.OwnerDocument.CreateElement("PgfFileLocation");
-                pgfFileLocElement.SetAttribute("value", _PgfFileLoc);
-                nodeElement.AppendChild(pgfFileLocElement);
-
-                XmlElement trob1DirLocElement = nodeElement.OwnerDocument.CreateElement("Trob1DirLocation");
-                trob1DirLocElement.SetAttribute("value", _trob1DirLoc);
-                nodeElement.AppendChild(trob1DirLocElement);
-            }
-           
-
-        }
-
-        protected override void DeserializeCore(XmlElement nodeElement, SaveContext context)
-        {
-            base.DeserializeCore(nodeElement, context);
-     
-
-            foreach (XmlNode subNode in nodeElement.ChildNodes)
-            {
-                if (subNode.Name.Equals("PgfFileLocation"))
-                {
-                    try
-                    {
-                        _PgfFileLoc = subNode.Attributes[0].Value;
-                    }
-                    catch { }
-                }
-                if (subNode.Name.Equals("Trob1DirLocation"))
-                {
-                    try
-                    {
-                        _trob1DirLoc = subNode.Attributes[0].Value;
-                    }
-                    catch { }
-                }
-
-                if (subNode.Name.Equals("ModFileLocation"))
-                {
-                    try
-                    {
-                        _ModFileLoc = subNode.Attributes[0].Value;
-                        GetFileDataAndPopulatePanel(true);
-                    }
-                    catch { }
-                }
-              
-
-
-            }
-
-        }
-
-
-
-
-
+    
         #endregion
 
         #region command methods

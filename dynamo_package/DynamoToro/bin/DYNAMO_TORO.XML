@@ -4,160 +4,9 @@
         <name>DYNAMO_TORO</name>
     </assembly>
     <members>
-        <member name="T:Dynamo_TORO.WIP_ROBARCH">
-            <summary>
-            Container for RobArch workflow
-            </summary>
-        </member>
-        <member name="M:Dynamo_TORO.WIP_ROBARCH.vis_tool(Autodesk.DesignScript.Geometry.Plane)">
-            <summary>
-            Create geometry representation of tool.
-            </summary>
-            <param name="frame">Tool frame at drill tip</param>
-            <returns></returns>
-        </member>
-        <member name="M:Dynamo_TORO.WIP_ROBARCH.vis_wobj(Autodesk.DesignScript.Geometry.Plane)">
-            <summary>
-            Create geometry representation of wobj.
-            </summary>
-            <param name="frame">Wobj frame at cube centroid</param>
-            <returns></returns>
-        </member>
-        <member name="M:Dynamo_TORO.WIP_ROBARCH.sortPolar3_Plane(System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Plane},System.Int32)">
-            <summary>
-            Sort planes by directionality about average pole and shift.
-            </summary>
-            <param name="planeList">List of planes</param>
-            <param name="shift">Shift value</param>
-            <returns></returns>
-        </member>
-        <member name="M:Dynamo_TORO.WIP_ROBARCH.sortPolar3_Index(System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Plane},System.Int32)">
-            <summary>
-            Sort planes by directionality about average pole and shift.
-            </summary>
-            <param name="planeList">List of planes</param>
-            <param name="shift">Shift value</param>
-            <returns></returns>
-        </member>
-        <member name="M:Dynamo_TORO.WIP_ROBARCH.testAngular1_Node(System.Collections.Generic.List{WireFrameToRobot.Node},Autodesk.DesignScript.Geometry.Vector,System.Double)">
-            <summary>
-            Test strut normals of nodes against guide vector using angular tolerance.
-            </summary>
-            <param name="nodeList">List of nodes to test</param>
-            <param name="guide">Guide vector (Default: World +ZAxis)</param>
-            <param name="tolerance">Angular tolerance (degrees)</param>
-            <returns></returns>
-        </member>
-        <member name="M:Dynamo_TORO.WIP_ROBARCH.testAngular2_Node(System.Collections.Generic.List{WireFrameToRobot.Node},System.Double)">
-            <summary>
-            Test strut normals of node against each other using angular tolerance.
-            </summary>
-            <param name="nodeList">List of nodes to test</param>
-            <param name="tolerance">Angular tolerance (degrees)</param>
-            <returns></returns>
-        </member>
-        <member name="M:Dynamo_TORO.WIP_ROBARCH.flip_Plane2(Autodesk.DesignScript.Geometry.Plane,System.Boolean)">
-            <summary>
-            Reverse normal and retain rotation of plane.
-            </summary>
-            <param name="plane">Plane to flip</param>
-            <param name="retain">Retain X-Axis?</param>
-            <returns></returns>
-        </member>
-        <member name="M:Dynamo_TORO.WIP_ROBARCH.getLinesPlaneAtPoint(System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Line},System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Point})">
-            <summary>
-            For each point get list of and reorient all lines and get list of planes.
-            </summary>
-            <param name="lines">List of lines</param>
-            <param name="points">List of points</param>
-            <returns></returns>
-        </member>
-        <member name="M:Dynamo_TORO.WIP_ROBARCH.getLinesCoordSysAtPoint(System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Line},System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Point})">
-            <summary>
-            For each point get list of and reorient all lines and get list of planes.
-            </summary>
-            <param name="lines">List of lines</param>
-            <param name="points">List of points</param>
-            <returns></returns>
-        </member>
-        <member name="M:Dynamo_TORO.WIP_ROBARCH.createDrillRoutine_Nodes(System.String,System.Collections.Generic.List{WireFrameToRobot.Node})">
-            <summary>
-            Create routine for an ABB robot with stationary drill and mobile workpiece.
-            </summary>
-            <param name="directory">Directory to write files ("C:\")</param>
-            <param name="nodes">A list of nodes</param>
-            <returns>filePaths</returns>
-        </member>
-        <member name="M:Dynamo_TORO.WIP_ROBARCH.createDrillRoutine_Planes(System.String,System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Plane})">
-            <summary>
-            Create routine for an ABB robot with stationary drill and mobile workpiece.
-            </summary>
-            <param name="directory">Directory to write files ("C:\")</param>
-            <param name="planes">A list of planes to drill</param>
-            <returns>filePaths</returns>
-        </member>
-        <member name="T:Dynamo_TORO.WIP_Welding">
-            <summary>
-            testing
-            </summary>
-        </member>
-        <member name="M:Dynamo_TORO.WIP_Welding.createWeldRoutine0(System.String,System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Plane},System.Double,System.Double,System.Double)">
-            <summary>
-            Create a spot-welding routine.
-            </summary>
-            <param name="filePath">File path</param>
-            <param name="planes">Targets as planes</param>
-            <param name="waitTime">Duration between welds (sec) </param>
-            <param name="weldTime">Duration of weld (sec)</param>
-            <param name="retract">Distance offset (Z) from target in tool-space</param>
-            <returns></returns>
-        </member>
-        <member name="M:Dynamo_TORO.WIP_Welding.createWeldRoutine1(System.String,System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Plane},System.Double,System.Double,System.Double,System.Double)">
-            <summary>
-            Create a spot-welding routine (with exit routine).
-            </summary>
-            <param name="filePath">File path</param>
-            <param name="planes">Targets as planes</param>
-            <param name="waitTime">Duration between welds (sec) </param>
-            <param name="weldTime">Duration of weld (sec)</param>
-            <param name="retract_tool">Distance offset (Z) from target in tool-space</param>
-            <param name="retract_world">Distance offset (Z) from target in world-space</param>
-            <returns></returns>
-        </member>
-        <member name="M:Dynamo_TORO.WIP_Welding.createWeldRoutine2(System.String,System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Plane},System.Double,System.Double,System.Double,System.Double)">
-            <summary>
-            Create a spot-welding routine (with exit routine, with waittime-per-distance function).
-            </summary>
-            <param name="filePath">File path</param>
-            <param name="planes">Targets as planes</param>
-            <param name="waitTime">Duration between welds (sec) </param>
-            <param name="weldTime">Duration of weld (sec)</param>
-            <param name="retract_tool">Distance offset (Z) from target in tool-space</param>
-            <param name="retract_world">Distance offset (Z) from target in world-space</param>
-            <returns></returns>
-        </member>
-        <member name="M:Dynamo_TORO.WIP_Welding.sortPointsByZ_2(System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Point})">
-            <summary>
-            Sort points by Z value with indices; version 2.
-            </summary>
-            <param name="points">Point list</param>
-            <returns></returns>
-        </member>
-        <member name="M:Dynamo_TORO.WIP_Welding.sortPlanesByZ_2(System.Collections.Generic.List{Autodesk.DesignScript.Geometry.Plane})">
-            <summary>
-            Sort planes by Z value with indices; version 2.
-            </summary>
-            <param name="planes">Plane list</param>
-            <returns></returns>
-        </member>
         <member name="T:Dynamo_TORO.ToroUIfunctions">
             <summary>
             Functions for the UI controls
-            </summary>
-        </member>
-        <member name="T:Dynamo_TORO.DataTypes">
-            <summary>
-            Create datatype.
             </summary>
         </member>
         <member name="M:Dynamo_TORO.DataTypes.EoaToolData(Autodesk.DesignScript.Geometry.Plane,Autodesk.DesignScript.Geometry.Plane,Autodesk.DesignScript.Geometry.Geometry)">
@@ -212,12 +61,12 @@
             <param name="j6">Degrees</param>
             <returns></returns>
         </member>
-        <member name="M:Dynamo_TORO.DataTypes.Speeddata(System.String,System.Double,System.Double,System.Double,System.Double)">
+        <member name="M:Dynamo_TORO.DataTypes.Speeddata(System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             Define speeddata.
             </summary>
             <param name="varName">Name of speeddata variable</param>
-            <param name="v_tcp">Speed at tool center point in mm/s</param>
+            <param name="v_tcp">TSpeed at tool center point in mm/s</param>
             <param name="v_ori">Reorientation speed of the TCP in deg</param>
             <param name="v_leax">Linear speed of external axes in mm/s</param>
             <param name="v_reax">Rotational speed of external axes in deg</param>
@@ -370,7 +219,7 @@
             <param name="name">Name of tooldata variable</param>
             <returns></returns>
         </member>
-        <member name="M:Dynamo_TORO.DataTypes.ToolAtPlane(Autodesk.DesignScript.Geometry.Plane,System.Double,System.String)">
+        <member name="M:Dynamo_TORO.DataTypes.ToolAtPlane(Autodesk.DesignScript.Geometry.Plane,Autodesk.DesignScript.Geometry.Point,System.Double,System.String)">
             <summary>
             Define tooldata from plane and load value.
             </summary>
@@ -418,13 +267,32 @@
             Create instructions.
             </summary>
         </member>
-        <member name="M:Dynamo_TORO.Instructions.MoveCommand(System.Int32,System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Double},System.Collections.Generic.List{System.Double},System.String,System.String,System.String,System.Boolean)">
+        <member name="M:Dynamo_TORO.Instructions.#ctor">
+            <summary>
+            Rapid Instructions
+            </summary>
+        </member>
+        <member name="M:Dynamo_TORO.Instructions.MoveLDO(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{System.Int32},System.String,System.String,System.String,System.Boolean)">
             <summary>
             Create a linear movement instruction.
             </summary>
-            <param name="moveType">0= moveL , 1= moveJ, 2= MoveC</param>
             <param name="targets">Robot target</param>
-            <param name="speed">Speed data (rounds to default in RobotStudio)</param>
+            <param name="speed">TSpeed data (rounds to default in RobotStudio)</param>
+            <param name="zone">Zone data (rounds to default in RobotStudio)</param>
+            <param name="setName">Unique name for this instruction</param>
+            <param name="toolName">Active tool</param>
+            <param name="wobjName">Active work-object</param>
+            <param name="defaultSpeeds">If true it will round the speed values to robot studio default values</param>
+            <param name="DoNames"></param>
+            /// <param name="DoVals"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dynamo_TORO.Instructions.MoveL(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Int32},System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Create a linear movement instruction.
+            </summary>
+            <param name="targets">Robot target</param>
+            <param name="speed">TSpeed data (rounds to default in RobotStudio)</param>
             <param name="zone">Zone data (rounds to default in RobotStudio)</param>
             <param name="setName">Unique name for this instruction</param>
             <param name="toolName">Active tool</param>
@@ -432,50 +300,37 @@
             <param name="defautSpeeds">If true it will round the speed values to robot studio default values</param>
             <returns></returns>
         </member>
-        <member name="M:Dynamo_TORO.Instructions.MoveL(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Double},System.Collections.Generic.List{System.Double},System.String,System.String,System.String,System.Boolean)">
-            <summary>
-            Create a linear movement instruction.
-            </summary>
-            <param name="targets">Robot target</param>
-            <param name="speed">Speed data (rounds to default in RobotStudio)</param>
-            <param name="zone">Zone data (rounds to default in RobotStudio)</param>
-            <param name="setName">Unique name for this instruction</param>
-            <param name="toolName">Active tool</param>
-            <param name="wobjName">Active work-object</param>
-            <param name="defautSpeeds">If true it will round the speed values to robot studio default values</param>
-            <returns></returns>
-        </member>
-        <member name="M:Dynamo_TORO.Instructions.MoveJ(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Object},System.String,System.String,System.String)">
+        <member name="M:Dynamo_TORO.Instructions.MoveJ(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Int32},System.String,System.String,System.String,System.Boolean)">
             <summary>
             Create a joint movement instruction.
             </summary>
             <param name="targets">Robot target</param>
-            <param name="speed">Speed data (rounds to default in RobotStudio)</param>
+            <param name="speed">TSpeed data (rounds to default in RobotStudio)</param>
             <param name="zone">Zone data (rounds to default in RobotStudio)</param>
             <param name="setName">Unique name of this instruction</param>
             <param name="toolName">Active tool</param>
             <param name="wobjName">Active work-object</param>
             <returns></returns>
         </member>
-        <member name="M:Dynamo_TORO.Instructions.MoveAbsJ(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.JointTarget},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Object},System.String,System.String,System.String)">
+        <member name="M:Dynamo_TORO.Instructions.MoveAbsJ(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Int32},System.String,System.String,System.String,System.Boolean)">
             <summary>
-            Create an absolute joint movement instruction.
+            Create a abs joint movement instruction.
             </summary>
-            <param name="targets">Joint target</param>
-            <param name="speed">Speed data (rounds to default in RobotStudio)</param>
+            <param name="targets">Robot target</param>
+            <param name="speed">TSpeed data (rounds to default in RobotStudio)</param>
             <param name="zone">Zone data (rounds to default in RobotStudio)</param>
-            <param name="setName">Unique name for this instruction</param>
+            <param name="setName">Unique name of this instruction</param>
             <param name="toolName">Active tool</param>
             <param name="wobjName">Active work-object</param>
             <returns></returns>
         </member>
-        <member name="M:Dynamo_TORO.Instructions.MoveC(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Object},System.String,System.String,System.String)">
+        <member name="M:Dynamo_TORO.Instructions.MoveC(System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{System.Int32},System.String,System.String,System.String)">
             <summary>
             Create a circular movement instruction.
             </summary>
             <param name="cirTarget">Robot target (through point)</param>
             <param name="toTarget">Robot target (destination)</param>
-            <param name="speed">Speed data (rounds to default in RobotStudio)</param>
+            <param name="speed">TSpeed data (rounds to default in RobotStudio)</param>
             <param name="zone">Zone data (rounds to default in RobotStudio)</param>
             <param name="setName">Unique name for this instruction</param>
             <param name="toolName">Active tool</param>
@@ -503,7 +358,7 @@
             Write program to file.
             </summary>
         </member>
-        <member name="M:Dynamo_TORO.Write.createRapidCode(System.String,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String})">
+        <member name="M:Dynamo_TORO.Write.createRapidCode(System.String,System.Collections.Generic.List{Dynamo_TORO.TConstant},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String})">
             <summary>
             Merge and write data to a destination.
             </summary>
@@ -547,6 +402,15 @@
             <returns></returns>
         </member>
         <member name="M:Dynamo_TORO.Utilities.InsertAtIndex(System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Insert an item into a list at specified index.
+            </summary>
+            <param name="list">Initial list</param>
+            <param name="item">Item to insert</param>
+            <param name="index">Index at which to insert</param>
+            <returns></returns>
+        </member>
+        <member name="M:Dynamo_TORO.Utilities.InsertAtFirstLast(System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Object})">
             <summary>
             Insert an item into a list at specified index.
             </summary>
@@ -851,15 +715,6 @@
             <param name="controllerData">Controller data</param>
             <returns></returns>
         </member>
-        <member name="M:Dynamo_TORO.RobComm.getProgramData(System.Boolean,System.String[],System.String)">
-            <summary>
-            Read tooldata and wobjdata for MainModule on controller.
-            </summary>
-            <param name="run">True to run</param>
-            <param name="controllerData">Controller data</param>
-            <param name="moduleName">Module name: MainModule | BASE | user (case sensitive)</param>
-            <returns></returns>
-        </member>
         <member name="M:Dynamo_TORO.RobComm.getCurrentPosition(System.Boolean,System.String[])">
             <summary>
             Read RobTarget and JointTarget from current position.
@@ -892,6 +747,14 @@
             <param name="controllerData">Controller data</param>
             <param name="value"></param>
         </member>
+        <member name="M:Dynamo_TORO.RobComm.TestTarget(System.Boolean,System.String[])">
+            <summary>
+            Set current program pointer on controller.
+            </summary>
+            <param name="run">True to run</param>
+            <param name="controllerData">Controller data</param>
+            <param name="value"></param>
+        </member>
         <member name="M:Dynamo_TORO.RobComm.StopSim(System.Boolean,System.String[])">
             <summary>
             Stop the simulation
@@ -899,6 +762,22 @@
             <param name="run">True to run</param>
             <param name="controllerData">Controller data</param>
             <param name="value"></param>
+        </member>
+        <member name="M:Dynamo_TORO.UtilFuncs.MoveCommand(Dynamo_TORO.UtilFuncs.MoveType,System.Collections.Generic.List{ABB.Robotics.Controllers.RapidDomain.RobTarget},System.Collections.Generic.List{System.Object},System.Collections.Generic.List{System.Int32},System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.Int32},System.String,System.String,System.String,System.Boolean,System.Collections.Generic.List{System.Object}@,System.Collections.Generic.List{System.Object}@)">
+            <summary>
+            Create a movement instruction.
+            </summary>
+            <param name="moveType"></param>
+            <param name="targets">Robot target</param>
+            <param name="speed">TSpeed data (rounds to default in RobotStudio)</param>
+            <param name="zone">Zone data (rounds to default in RobotStudio)</param>
+            <param name="DOnames">if using a MoveDO command sets the DO val  , true=1</param>
+            <param name="DOvals">if using a MoveDO command sets the DO val  , true=1</param>
+            <param name="setName">Unique name for this instruction</param>
+            <param name="toolName">Active tool</param>
+            <param name="wobjName">Active work-object</param>
+            <param name="defautSpeeds">If true it will round the speed values to robot studio default values</param>
+            <returns></returns>
         </member>
     </members>
 </doc>
